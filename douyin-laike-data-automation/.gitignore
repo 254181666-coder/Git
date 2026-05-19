@@ -1,0 +1,17 @@
+.env
+.env.*
+!.env.example
+
+# Local runtime/cache files
+.DS_Store
+node_modules/
+dist/
+build/
+.cache/
+
+# Downloaded exports from Douyin Laike
+exports/
+downloads/
+*.xlsx
+*.xls
+*.csv.tmp

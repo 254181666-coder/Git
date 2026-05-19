@@ -1,0 +1,10 @@
+{
+  "name": "douyin-laike-data-automation",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "callback": "node scripts/douyin-callback-server.js",
+    "order:query": "node scripts/douyin-order-query.js",
+    "dashboard": "node scripts/dashboard-server.js"
+  }
+}
