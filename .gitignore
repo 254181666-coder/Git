@@ -1,0 +1,45 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.pycache_tmp/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local environment files
+.env
+.env.*
+
+# Logs
+*.log
+data/logs/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+database/*.db
+
+# Generated reports and exports
+archive/
+data/archive/
+data/output/
+data/output_pdf/
+
+# Local/source data exports
+*.csv
+*.xlsx
+!data/benchmarks/*.csv
+
+# Temporary scratch files
+tmp/
+temp/
+temp_*.py
