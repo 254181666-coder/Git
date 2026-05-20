@@ -19,17 +19,15 @@ from datetime import datetime
 PROJECT_ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
-try:
-    from config_tasks import TASKS, MYSQL_CONFIG
-except ImportError:
-    print("❌ 找不到 config_tasks.py 配置文件")
-    sys.exit(1)
+from src.config import LOGS_DIR
 
 
 class DailyReportScheduler:
     def __init__(self):
         self.process = None
         self.pid_file = PROJECT_ROOT / ".scheduler_pid"
+        LOGS_DIR.mkdir(parents=True, exist_ok=True)
+        self.log_file = LOGS_DIR / "scheduler.log"
 
     def save_pid(self):
         if self.process:
@@ -39,8 +37,11 @@ class DailyReportScheduler:
     def load_pid(self):
         if not self.pid_file.exists():
             return None
-        with open(self.pid_file, 'r') as f:
-            return int(f.read().strip())
+        try:
+            with open(self.pid_file, 'r') as f:
+                return int(f.read().strip())
+        except (OSError, ValueError):
+            return None
 
     def is_running(self):
         pid = self.load_pid()
@@ -62,6 +63,20 @@ class DailyReportScheduler:
                 print("⚠️ 进程不存在")
         if self.pid_file.exists():
             self.pid_file.unlink()
+        return True
+
+    def status(self):
+        pid = self.load_pid()
+        if pid and self.is_running():
+            print(f"✅ 调度器正在运行 (PID: {pid})")
+            print(f"📄 日志文件: {self.log_file}")
+            return True
+        if self.pid_file.exists():
+            print("❌ 调度器未运行（发现过期 PID 文件，建议执行 stop 清理）")
+        else:
+            print("❌ 调度器未运行")
+        print(f"📄 日志文件: {self.log_file}")
+        return False
 
     def check_data_ready(self, target_date):
         """检查数据是否就绪（检查store_daily表）"""
@@ -124,7 +139,8 @@ class DailyReportScheduler:
         """启动定时调度器"""
         if self.is_running():
             print("⚠️ 定时调度器已在运行中")
-            return
+            print(f"📄 日志文件: {self.log_file}")
+            return True
 
         print("=" * 60)
         print("⏰ 每日报告定时调度器启动")
@@ -137,16 +153,24 @@ class DailyReportScheduler:
         print(f"  - 清理归档7天前的输出文件")
         print("=" * 60)
 
-        self.process = subprocess.Popen(
-            [sys.executable, __file__, "_scheduler_loop"],
-            cwd=PROJECT_ROOT
-        )
+        log_handle = open(self.log_file, "a", encoding="utf-8")
+        try:
+            self.process = subprocess.Popen(
+                [sys.executable, __file__, "_scheduler_loop"],
+                cwd=PROJECT_ROOT,
+                stdout=log_handle,
+                stderr=subprocess.STDOUT,
+            )
+        finally:
+            log_handle.close()
         self.save_pid()
 
         print("✅ 调度器已启动（后台运行）")
         print(f"📋 进程ID: {self.process.pid}")
+        print(f"📄 日志文件: {self.log_file}")
         print("💡 可以安全关闭终端窗口")
         print("   如需停止: python3 run_tasks.py stop")
+        return True
 
     def run_cleanup(self):
         """执行文件清理任务"""
@@ -202,19 +226,23 @@ def main():
         print("  start   - 启动定时调度器（后台运行）")
         print("  run     - 立即执行一次日报生成")
         print("  stop    - 停止定时调度器")
+        print("  status  - 查看定时调度器状态")
         sys.exit(1)
 
     cmd = sys.argv[1].lower()
     scheduler = DailyReportScheduler()
 
     if cmd == "stop":
-        scheduler.stop()
+        sys.exit(0 if scheduler.stop() else 1)
 
     elif cmd == "start":
-        scheduler.start_scheduler()
+        sys.exit(0 if scheduler.start_scheduler() else 1)
 
     elif cmd == "run":
-        scheduler.run_now()
+        sys.exit(0 if scheduler.run_now() else 1)
+
+    elif cmd == "status":
+        sys.exit(0 if scheduler.status() else 1)
 
     elif cmd == "_scheduler_loop":
         scheduler.scheduler_loop()

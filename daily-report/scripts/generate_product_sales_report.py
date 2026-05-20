@@ -12,7 +12,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 import pandas as pd
 
-from src.config import BIG_CATEGORIES, CATEGORY_MAP
+from src.config import BIG_CATEGORIES, resolve_big_category
 from src.database import query
 
 OUTPUT_DIR = PROJECT_ROOT / "data" / "output"
@@ -76,7 +76,11 @@ def get_product_data(target_date):
     df = query(sql, (target_date,))
 
     if not df.empty:
-        df['mapped_category'] = df['big_category']
+        df['mapped_category'] = df.apply(
+            lambda row: row['big_category'] if row['big_category'] in BIG_CATEGORIES
+            else resolve_big_category(row['category'], row['product_name']),
+            axis=1,
+        )
         df['门店'] = df['store_name'].apply(unify_store_name_for_product)
         df = df[df['门店'].notna()]
 
@@ -152,8 +156,8 @@ def get_category_top10(df, category):
 
 
 def get_all_top10(df):
-    """获取全品类Top10（排除"其他"分类）"""
-    filtered_df = df[df['mapped_category'] != '其他']
+    """获取全品类Top10（排除兜底分类）"""
+    filtered_df = df[~df['mapped_category'].isin(['其他', '其他类'])]
     all_top10 = filtered_df.groupby(['product_name', 'mapped_category']).agg({
         'quantity': 'sum',
         'sales_amount': 'sum',

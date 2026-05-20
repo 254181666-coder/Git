@@ -18,7 +18,7 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from scripts.init_sqlite import main as init_sqlite
-from src.config import BIG_CATEGORIES, CATEGORY_MAP, FUN360_REPORT_BASE_URL
+from src.config import FUN360_REPORT_BASE_URL, resolve_big_category
 from src.database import get_connection
 from src.fun360_api import Fun360Client, Fun360ConfigError, Fun360Credentials
 
@@ -60,10 +60,6 @@ def first_text(row: Dict[str, Any], keys: Iterable[str], default: str = "") -> s
         if value not in (None, ""):
             return str(value)
     return default
-
-
-def big_category(category: str) -> str:
-    return CATEGORY_MAP.get(category, category if category in BIG_CATEGORIES else "其他")
 
 
 def get_or_create_store(conn, shop: Dict[str, Any]) -> int:
@@ -155,6 +151,7 @@ def sync_product_sales(conn, client: Fun360Client, brand_id: int, shop: Dict[str
     )
     for row in rows:
         category = first_text(row, ("category_name", "category", "product_category_name"))
+        product_name = first_text(row, ("product_name", "name"))
         quantity = first_number(row, ("sale_total_num", "quantity", "num", "product_num"), 0)
         amount = first_number(row, ("sale_total_amount", "sales_amount", "amount", "total_amount"), 0)
         conn.execute(
@@ -168,7 +165,7 @@ def sync_product_sales(conn, client: Fun360Client, brand_id: int, shop: Dict[str
             (
                 store_id,
                 target_date,
-                first_text(row, ("product_name", "name")),
+                product_name,
                 first_text(row, ("product_code", "code", "product_id")),
                 category,
                 category,
@@ -176,7 +173,7 @@ def sync_product_sales(conn, client: Fun360Client, brand_id: int, shop: Dict[str
                 first_number(row, ("unit_price", "price"), 0),
                 int(quantity),
                 amount,
-                big_category(category),
+                resolve_big_category(category, product_name),
                 json.dumps(row, ensure_ascii=False),
             ),
         )

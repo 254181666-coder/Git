@@ -87,19 +87,11 @@ def copy_to_delivery(target_date):
     
     try:
         import shutil
-        OUTPUT_DIR = PROJECT_ROOT / "data" / "output"
-        OUTPUT_PDF_DIR = PROJECT_ROOT / "data" / "output_pdf"
         from src.config import DELIVERY_DIR
+        from src.report_paths import daily_report_files
         DELIVERY_DIR.mkdir(parents=True, exist_ok=True)
         
-        files = [
-            OUTPUT_DIR / f"{target_date}储值率分析图.png",
-            OUTPUT_DIR / f"收入分析综合图_{target_date}.png",
-            OUTPUT_PDF_DIR / f"商品销售分析报告_{target_date}.pdf",
-            OUTPUT_PDF_DIR / f"同比对比分析报告_{target_date}.pdf",
-        ]
-        
-        for src in files:
+        for src in daily_report_files(target_date):
             if src.exists():
                 dest = DELIVERY_DIR / src.name
                 shutil.copy2(str(src), str(dest))

@@ -15,6 +15,8 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.config import DELIVERY_DIR, LOGS_DIR, OUTPUT_DIR
 from src.database import query
+from src.report_paths import daily_report_artifacts, daily_report_files
+from scripts.health_check import run_health_check
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
@@ -59,6 +61,16 @@ def sync_data(target_date):
     return run_python_script("sync_fun360_daily_data.py", target_date)
 
 
+def health_check(target_date):
+    log("运行健康检查...")
+    result = run_health_check(target_date)
+    if result == 0:
+        log("  ✓ 健康检查通过")
+        return True
+    log("  ✗ 健康检查未通过")
+    return False
+
+
 def data_ready(target_date):
     checks = [
         ("store_daily", "SELECT COUNT(*) AS cnt FROM store_daily WHERE data_date = %s"),
@@ -99,13 +111,7 @@ def clear_extended_attributes(file_path: Path):
 
 def copy_files_to_delivery(target_date):
     log("复制报告到交付目录...")
-    files = [
-        OUTPUT_DIR / f"{target_date}储值率分析图.png",
-        OUTPUT_DIR / f"收入分析综合图_{target_date}.png",
-        PROJECT_ROOT / "data" / "output_pdf" / f"商品销售分析报告_{target_date}.pdf",
-        PROJECT_ROOT / "data" / "output_pdf" / f"同比对比分析报告_{target_date}.pdf",
-    ]
-    for src in files:
+    for src in daily_report_files(target_date):
         if src.exists():
             dest = DELIVERY_DIR / src.name
             shutil.copy2(str(src), str(dest))
@@ -113,6 +119,26 @@ def copy_files_to_delivery(target_date):
             log(f"  ✓ {src.name}")
         else:
             log(f"  ⚠️ 文件不存在: {src.name}")
+
+
+def validate_report_outputs(target_date):
+    log("校验报告产物...")
+    ok = True
+    for artifact in daily_report_artifacts(target_date):
+        path = artifact.path
+        if not path.exists():
+            level = "✗" if artifact.required else "⚠️"
+            log(f"  {level} 缺少产物: {artifact.label} ({path.name})")
+            ok = ok and not artifact.required
+            continue
+        size = path.stat().st_size
+        if size < 1024:
+            level = "✗" if artifact.required else "⚠️"
+            log(f"  {level} 产物异常偏小: {artifact.label} ({path.name}, {size} bytes)")
+            ok = ok and not artifact.required
+            continue
+        log(f"  ✓ {artifact.label}: {path.name} ({size / 1024:.1f} KB)")
+    return ok
 
 def parse_args(argv=None):
     parser = argparse.ArgumentParser(description="生成每日报告")
@@ -140,6 +166,11 @@ def parse_args(argv=None):
         action="store_true",
         help="数据检查不通过时仍继续生成报告",
     )
+    parser.add_argument(
+        "--skip-health-check",
+        action="store_true",
+        help="跳过目录和数据库基础健康检查",
+    )
     return parser.parse_args(argv)
 
 
@@ -153,6 +184,10 @@ def main(argv=None):
 
     if args.sync and not sync_data(target_date):
         log("数据同步失败，停止生成。可用 --no-sync 跳过同步。")
+        return 1
+
+    if not args.skip_health_check and not health_check(target_date):
+        log("健康检查失败，停止生成。可用 --skip-health-check 跳过基础检查。")
         return 1
 
     log("")
@@ -180,10 +215,12 @@ def main(argv=None):
     log("[4/4] 复制到交付目录...")
     copy_files_to_delivery(target_date)
     log("")
+    outputs_ok = validate_report_outputs(target_date)
+    log("")
     log("=" * 60)
-    log(f"完成 ({success}/3 成功)")
+    log(f"完成 ({success}/3 成功，产物校验: {'通过' if outputs_ok else '未通过'})")
     log("=" * 60)
-    return 0 if success == 3 else 1
+    return 0 if success == 3 and outputs_ok else 1
 
 if __name__ == "__main__":
     raise SystemExit(main())

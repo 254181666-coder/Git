@@ -214,6 +214,160 @@ CREATE TABLE IF NOT EXISTS raw_openapi_products (
     PRIMARY KEY(product_id, shop_id)
 );
 
+CREATE TABLE IF NOT EXISTS clean_room_session (
+    session_id TEXT PRIMARY KEY,
+    source TEXT NOT NULL DEFAULT 'fun360',
+    source_parent_order_id INTEGER,
+    store_id INTEGER,
+    shop_id INTEGER,
+    business_date TEXT NOT NULL,
+    room_name TEXT,
+    room_type TEXT,
+    scene_name TEXT,
+    channel_name TEXT,
+    opened_at TEXT,
+    closed_at TEXT,
+    customer_mobile TEXT,
+    customer_name TEXT,
+    sales_manager TEXT,
+    preorder_name TEXT,
+    gross_amount REAL DEFAULT 0,
+    discount_amount REAL DEFAULT 0,
+    paid_amount REAL DEFAULT 0,
+    unpaid_amount REAL DEFAULT 0,
+    recognized_revenue REAL DEFAULT 0,
+    is_system_generated INTEGER DEFAULT 0,
+    is_excluded_from_management INTEGER DEFAULT 0,
+    exclusion_reason TEXT,
+    raw_json TEXT,
+    cleaned_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(store_id) REFERENCES stores(id)
+);
+
+CREATE TABLE IF NOT EXISTS clean_order_item (
+    item_id TEXT PRIMARY KEY,
+    source TEXT NOT NULL DEFAULT 'fun360',
+    source_order_id TEXT,
+    source_parent_order_id INTEGER,
+    store_id INTEGER,
+    shop_id INTEGER,
+    business_date TEXT NOT NULL,
+    product_name TEXT,
+    product_code TEXT,
+    category_id INTEGER,
+    category TEXT,
+    big_category TEXT,
+    sale_type TEXT,
+    is_package_item INTEGER DEFAULT 0,
+    is_gift INTEGER DEFAULT 0,
+    quantity REAL DEFAULT 0,
+    gross_amount REAL DEFAULT 0,
+    discount_amount REAL DEFAULT 0,
+    refund_quantity REAL DEFAULT 0,
+    refund_amount REAL DEFAULT 0,
+    allocated_amount REAL DEFAULT 0,
+    net_amount REAL DEFAULT 0,
+    raw_json TEXT,
+    cleaned_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(store_id) REFERENCES stores(id)
+);
+
+CREATE TABLE IF NOT EXISTS clean_payment_event (
+    payment_event_id TEXT PRIMARY KEY,
+    source TEXT NOT NULL DEFAULT 'fun360',
+    source_order_id TEXT,
+    source_parent_order_id INTEGER,
+    store_id INTEGER,
+    shop_id INTEGER,
+    business_date TEXT NOT NULL,
+    event_time TEXT,
+    business_source TEXT,
+    income_type TEXT,
+    payment_method TEXT,
+    payment_channel TEXT,
+    amount REAL DEFAULT 0,
+    principal_amount REAL DEFAULT 0,
+    gift_amount REAL DEFAULT 0,
+    is_actual_cashflow INTEGER DEFAULT 1,
+    is_revenue_recognized INTEGER DEFAULT 1,
+    raw_json TEXT,
+    cleaned_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(store_id) REFERENCES stores(id)
+);
+
+CREATE TABLE IF NOT EXISTS clean_refund_event (
+    refund_event_id TEXT PRIMARY KEY,
+    source TEXT NOT NULL DEFAULT 'fun360',
+    source_order_id TEXT,
+    source_parent_order_id INTEGER,
+    store_id INTEGER,
+    shop_id INTEGER,
+    business_date TEXT NOT NULL,
+    event_time TEXT,
+    refund_type TEXT,
+    payment_method TEXT,
+    amount REAL DEFAULT 0,
+    quantity REAL DEFAULT 0,
+    raw_json TEXT,
+    cleaned_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(store_id) REFERENCES stores(id)
+);
+
+CREATE TABLE IF NOT EXISTS clean_member_recharge (
+    recharge_event_id TEXT PRIMARY KEY,
+    source TEXT NOT NULL DEFAULT 'fun360',
+    store_id INTEGER,
+    shop_id INTEGER,
+    business_date TEXT NOT NULL,
+    event_time TEXT,
+    member_id TEXT,
+    member_mobile TEXT,
+    payment_method TEXT,
+    principal_amount REAL DEFAULT 0,
+    gift_amount REAL DEFAULT 0,
+    paid_amount REAL DEFAULT 0,
+    is_first_recharge INTEGER DEFAULT 0,
+    raw_json TEXT,
+    cleaned_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(store_id) REFERENCES stores(id)
+);
+
+CREATE TABLE IF NOT EXISTS clean_marketing_order (
+    marketing_order_id TEXT PRIMARY KEY,
+    source TEXT NOT NULL DEFAULT 'fun360',
+    store_id INTEGER,
+    shop_id INTEGER,
+    business_date TEXT NOT NULL,
+    order_time TEXT,
+    platform TEXT,
+    coupon_name TEXT,
+    order_status TEXT,
+    pay_status TEXT,
+    paid_amount REAL DEFAULT 0,
+    refund_amount REAL DEFAULT 0,
+    net_amount REAL DEFAULT 0,
+    member_mobile TEXT,
+    raw_json TEXT,
+    cleaned_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(store_id) REFERENCES stores(id)
+);
+
+CREATE TABLE IF NOT EXISTS clean_preorder (
+    preorder_id TEXT PRIMARY KEY,
+    source TEXT NOT NULL DEFAULT 'fun360',
+    store_id INTEGER,
+    shop_id INTEGER,
+    business_date TEXT NOT NULL,
+    arrival_time TEXT,
+    preorder_mobile TEXT,
+    preorder_status TEXT,
+    linked_parent_order_id INTEGER,
+    is_arrived INTEGER DEFAULT 0,
+    raw_json TEXT,
+    cleaned_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(store_id) REFERENCES stores(id)
+);
+
 CREATE TABLE IF NOT EXISTS openapi_daily_store_metrics (
     store_id INTEGER NOT NULL,
     shop_id INTEGER NOT NULL,
@@ -247,6 +401,89 @@ CREATE TABLE IF NOT EXISTS openapi_product_sales_items (
     PRIMARY KEY(store_id, data_date, product_name, category_id)
 );
 
+CREATE TABLE IF NOT EXISTS mart_daily_store_revenue (
+    store_id INTEGER NOT NULL,
+    shop_id INTEGER NOT NULL,
+    business_date TEXT NOT NULL,
+    total_revenue REAL DEFAULT 0,
+    net_revenue REAL DEFAULT 0,
+    recognized_revenue REAL DEFAULT 0,
+    actual_cashflow REAL DEFAULT 0,
+    room_amount REAL DEFAULT 0,
+    product_amount REAL DEFAULT 0,
+    stored_amount REAL DEFAULT 0,
+    marketing_amount REAL DEFAULT 0,
+    other_amount REAL DEFAULT 0,
+    discount_amount REAL DEFAULT 0,
+    refund_amount REAL DEFAULT 0,
+    hospitality_amount REAL DEFAULT 0,
+    gift_amount REAL DEFAULT 0,
+    credit_amount REAL DEFAULT 0,
+    room_sessions INTEGER DEFAULT 0,
+    customers INTEGER DEFAULT 0,
+    raw_json TEXT,
+    updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(store_id, business_date),
+    FOREIGN KEY(store_id) REFERENCES stores(id)
+);
+
+CREATE TABLE IF NOT EXISTS mart_daily_income_by_payment (
+    store_id INTEGER NOT NULL,
+    shop_id INTEGER NOT NULL,
+    business_date TEXT NOT NULL,
+    income_type TEXT NOT NULL,
+    payment_method TEXT NOT NULL,
+    amount REAL DEFAULT 0,
+    actual_cashflow REAL DEFAULT 0,
+    updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(store_id, business_date, income_type, payment_method),
+    FOREIGN KEY(store_id) REFERENCES stores(id)
+);
+
+CREATE TABLE IF NOT EXISTS mart_daily_product_sales (
+    store_id INTEGER NOT NULL,
+    shop_id INTEGER NOT NULL,
+    business_date TEXT NOT NULL,
+    product_name TEXT NOT NULL,
+    category TEXT,
+    big_category TEXT,
+    quantity REAL DEFAULT 0,
+    gross_amount REAL DEFAULT 0,
+    refund_amount REAL DEFAULT 0,
+    gift_amount REAL DEFAULT 0,
+    net_amount REAL DEFAULT 0,
+    updated_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY(store_id, business_date, product_name),
+    FOREIGN KEY(store_id) REFERENCES stores(id)
+);
+
+CREATE TABLE IF NOT EXISTS dq_pipeline_runs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    pipeline_name TEXT NOT NULL,
+    business_date TEXT NOT NULL,
+    status TEXT NOT NULL,
+    started_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    finished_at TEXT,
+    raw_rows INTEGER DEFAULT 0,
+    clean_rows INTEGER DEFAULT 0,
+    mart_rows INTEGER DEFAULT 0,
+    message TEXT
+);
+
+CREATE TABLE IF NOT EXISTS dq_check_results (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    pipeline_run_id INTEGER,
+    business_date TEXT NOT NULL,
+    check_name TEXT NOT NULL,
+    status TEXT NOT NULL,
+    severity TEXT NOT NULL DEFAULT 'warning',
+    observed_value REAL,
+    expected_value REAL,
+    message TEXT,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(pipeline_run_id) REFERENCES dq_pipeline_runs(id)
+);
+
 CREATE INDEX IF NOT EXISTS idx_store_daily_date ON store_daily(data_date);
 CREATE INDEX IF NOT EXISTS idx_stored_value_date ON stored_value(data_date);
 CREATE INDEX IF NOT EXISTS idx_product_sales_summary_date ON product_sales_summary(data_date);
@@ -256,8 +493,20 @@ CREATE INDEX IF NOT EXISTS idx_raw_openapi_mobile_consume_member ON raw_openapi_
 CREATE INDEX IF NOT EXISTS idx_raw_openapi_marketing_orders_biz_day ON raw_openapi_marketing_orders(biz_day);
 CREATE INDEX IF NOT EXISTS idx_raw_openapi_preorders_mobile ON raw_openapi_preorders(preorder_mobile);
 CREATE INDEX IF NOT EXISTS idx_raw_openapi_products_shop ON raw_openapi_products(shop_id);
+CREATE INDEX IF NOT EXISTS idx_clean_room_session_date ON clean_room_session(business_date);
+CREATE INDEX IF NOT EXISTS idx_clean_order_item_date ON clean_order_item(business_date);
+CREATE INDEX IF NOT EXISTS idx_clean_payment_event_date ON clean_payment_event(business_date);
+CREATE INDEX IF NOT EXISTS idx_clean_refund_event_date ON clean_refund_event(business_date);
+CREATE INDEX IF NOT EXISTS idx_clean_member_recharge_date ON clean_member_recharge(business_date);
+CREATE INDEX IF NOT EXISTS idx_clean_marketing_order_date ON clean_marketing_order(business_date);
+CREATE INDEX IF NOT EXISTS idx_clean_preorder_date ON clean_preorder(business_date);
 CREATE INDEX IF NOT EXISTS idx_openapi_daily_store_metrics_date ON openapi_daily_store_metrics(data_date);
 CREATE INDEX IF NOT EXISTS idx_openapi_product_sales_items_date ON openapi_product_sales_items(data_date);
+CREATE INDEX IF NOT EXISTS idx_mart_daily_store_revenue_date ON mart_daily_store_revenue(business_date);
+CREATE INDEX IF NOT EXISTS idx_mart_daily_income_by_payment_date ON mart_daily_income_by_payment(business_date);
+CREATE INDEX IF NOT EXISTS idx_mart_daily_product_sales_date ON mart_daily_product_sales(business_date);
+CREATE INDEX IF NOT EXISTS idx_dq_pipeline_runs_date ON dq_pipeline_runs(business_date);
+CREATE INDEX IF NOT EXISTS idx_dq_check_results_date ON dq_check_results(business_date);
 """
 
 
