@@ -1,0 +1,4 @@
+timestamp,port,baudrate,line
+2026-06-09T10:27:33.838+08:00,/dev/cu.usbserial-2110,115200,"getcfg ID:65535, Role:0, CH:1, Rate:1"
+2026-06-09T10:27:33.838+08:00,/dev/cu.usbserial-2110,115200,
+2026-06-09T10:27:33.838+08:00,/dev/cu.usbserial-2110,115200,OK

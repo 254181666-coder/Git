@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UWB系统测试工具</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f2f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #1890ff;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+            border-bottom: 2px solid #1890ff;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        button {
+            background: #1890ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #40a9ff;
+        }
+        
+        button.secondary {
+            background: #52c41a;
+        }
+        
+        button.secondary:hover {
+            background: #73d13d;
+        }
+        
+        .row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .col {
+            flex: 1;
+        }
+        
+        .result {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f6ffed;
+            border: 1px solid #b7eb8f;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: monospace;
+            display: none;
+        }
+        
+        .result.error {
+            background: #fff1f0;
+            border-color: #ffa39e;
+        }
+        
+        .quick-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .quick-links a {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #1890ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        .quick-links a:hover {
+            background: #40a9ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 UWB系统测试工具</h1>
+        
+        <div class="card">
+            <h2>快速链接</h2>
+            <div class="quick-links">
+                <a href="/" target="_blank">🗺️ 打开监控页面</a>
+                <a href="/health" target="_blank">❤️ 健康检查</a>
+                <a href="/api/orders" target="_blank">📋 订单API</a>
+                <a href="/api/locations" target="_blank">📍 位置API</a>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>📍 添加人员定位</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>卡片ID</label>
+                        <input type="number" id="staffCardId" value="1001">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>姓名</label>
+                        <input type="text" id="staffName" value="员工-1001">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>X坐标</label>
+                        <input type="number" id="staffX" value="50" step="0.1">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Y坐标</label>
+                        <input type="number" id="staffY" value="50" step="0.1">
+                    </div>
+                </div>
+            </div>
+            <button onclick="testStaffLocation()">添加定位</button>
+            <div id="staffResult" class="result"></div>
+        </div>
+        
+        <div class="card">
+            <h2>📦 添加物品定位</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>卡片ID</label>
+                        <input type="number" id="itemCardId" value="2001">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>物品名称</label>
+                        <input type="text" id="itemName" value="清洁车-2001">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>X坐标</label>
+                        <input type="number" id="itemX" value="100" step="0.1">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>Y坐标</label>
+                        <input type="number" id="itemY" value="30" step="0.1">
+                    </div>
+                </div>
+            </div>
+            <button onclick="testItemLocation()" class="secondary">添加定位</button>
+            <div id="itemResult" class="result"></div>
+        </div>
+        
+        <div class="card">
+            <h2>🚪 区域进出测试</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>卡片ID</label>
+                        <input type="number" id="areaCardId" value="1001">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>类型</label>
+                        <select id="areaUtype">
+                            <option value="1">人员</option>
+                            <option value="5">物品</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>区域ID</label>
+                        <input type="number" id="areaId" value="1">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>区域名称</label>
+                        <input type="text" id="areaName" value="测试区域">
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="testEnterArea()">进入区域</button>
+                <button onclick="testLeaveArea()" class="secondary">离开区域</button>
+            </div>
+            <div id="areaResult" class="result"></div>
+        </div>
+        
+        <div class="card">
+            <h2>📋 创建测试订单</h2>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>订单ID</label>
+                        <input type="text" id="orderId" placeholder="留空自动生成">
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>客户姓名</label>
+                        <input type="text" id="customerName" value="测试客户">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>房间号</label>
+                <input type="text" id="roomName" value="测试包厢101">
+            </div>
+            <button onclick="testOrder()">创建订单</button>
+            <div id="orderResult" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        function showResult(elementId, data, isError = false) {
+            const el = document.getElementById(elementId);
+            el.style.display = 'block';
+            el.className = isError ? 'result error' : 'result';
+            el.textContent = JSON.stringify(data, null, 2);
+        }
+        
+        async function testStaffLocation() {
+            const data = {
+                card_id: parseInt(document.getElementById('staffCardId').value),
+                name: document.getElementById('staffName').value,
+                x: parseFloat(document.getElementById('staffX').value),
+                y: parseFloat(document.getElementById('staffY').value)
+            };
+            
+            try {
+                const response = await fetch('/test_location', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('staffResult', result, result.error_code !== 0);
+            } catch (e) {
+                showResult('staffResult', { error: e.message }, true);
+            }
+        }
+        
+        async function testItemLocation() {
+            const data = {
+                card_id: parseInt(document.getElementById('itemCardId').value),
+                name: document.getElementById('itemName').value,
+                x: parseFloat(document.getElementById('itemX').value),
+                y: parseFloat(document.getElementById('itemY').value)
+            };
+            
+            try {
+                const response = await fetch('/test_item_location', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('itemResult', result, result.error_code !== 0);
+            } catch (e) {
+                showResult('itemResult', { error: e.message }, true);
+            }
+        }
+        
+        async function testEnterArea() {
+            const data = {
+                card_id: parseInt(document.getElementById('areaCardId').value),
+                area_id: parseInt(document.getElementById('areaId').value),
+                area_name: document.getElementById('areaName').value,
+                utype: parseInt(document.getElementById('areaUtype').value)
+            };
+            
+            try {
+                const response = await fetch('/test_enter_area', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('areaResult', result, result.error_code !== 0);
+            } catch (e) {
+                showResult('areaResult', { error: e.message }, true);
+            }
+        }
+        
+        async function testLeaveArea() {
+            const data = {
+                card_id: parseInt(document.getElementById('areaCardId').value),
+                area_id: parseInt(document.getElementById('areaId').value),
+                utype: parseInt(document.getElementById('areaUtype').value)
+            };
+            
+            try {
+                const response = await fetch('/test_leave_area', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('areaResult', result, result.error_code !== 0);
+            } catch (e) {
+                showResult('areaResult', { error: e.message }, true);
+            }
+        }
+        
+        async function testOrder() {
+            const orderId = document.getElementById('orderId').value;
+            const data = {
+                customer_name: document.getElementById('customerName').value,
+                room_name: document.getElementById('roomName').value
+            };
+            if (orderId) data.order_id = orderId;
+            
+            try {
+                const response = await fetch('/test_order', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                showResult('orderResult', result, result.error_code !== 0);
+            } catch (e) {
+                showResult('orderResult', { error: e.message }, true);
+            }
+        }
+    </script>
+</body>
+</html>

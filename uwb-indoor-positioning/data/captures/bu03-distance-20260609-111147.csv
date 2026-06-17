@@ -1,0 +1,2 @@
+timestamp,tag_id,anchor_id,actual_x,actual_y,actual_distance,reported_distance,line_of_sight,notes
+2026-06-09T11:11:47.741+08:00,T01,A01,,,1.0,1.5666,yes,A01-T01 1m AT+DISTANCE test

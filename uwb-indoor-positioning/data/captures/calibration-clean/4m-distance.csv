@@ -1,0 +1,20 @@
+timestamp,tag_id,anchor_id,actual_x,actual_y,actual_distance,reported_distance,line_of_sight,notes
+2026-06-09T11:17:33.919+08:00,T01,A01,,,4.0,3.5694,yes,clean calibration 4m
+2026-06-09T11:17:34.931+08:00,T01,A01,,,4.0,3.5834,yes,clean calibration 4m
+2026-06-09T11:17:35.945+08:00,T01,A01,,,4.0,3.5928,yes,clean calibration 4m
+2026-06-09T11:17:36.958+08:00,T01,A01,,,4.0,3.5928,yes,clean calibration 4m
+2026-06-09T11:17:37.971+08:00,T01,A01,,,4.0,3.5694,yes,clean calibration 4m
+2026-06-09T11:17:38.984+08:00,T01,A01,,,4.0,3.6819,yes,clean calibration 4m
+2026-06-09T11:17:39.998+08:00,T01,A01,,,4.0,4.1697,yes,clean calibration 4m
+2026-06-09T11:17:41.010+08:00,T01,A01,,,4.0,4.5356,yes,clean calibration 4m
+2026-06-09T11:17:42.020+08:00,T01,A01,,,4.0,4.4042,yes,clean calibration 4m
+2026-06-09T11:17:43.033+08:00,T01,A01,,,4.0,4.3339,yes,clean calibration 4m
+2026-06-09T11:17:44.044+08:00,T01,A01,,,4.0,4.3667,yes,clean calibration 4m
+2026-06-09T11:17:45.058+08:00,T01,A01,,,4.0,4.2166,yes,clean calibration 4m
+2026-06-09T11:17:46.072+08:00,T01,A01,,,4.0,3.9211,yes,clean calibration 4m
+2026-06-09T11:17:47.082+08:00,T01,A01,,,4.0,3.8977,yes,clean calibration 4m
+2026-06-09T11:17:48.095+08:00,T01,A01,,,4.0,3.9446,yes,clean calibration 4m
+2026-06-09T11:17:49.105+08:00,T01,A01,,,4.0,4.1932,yes,clean calibration 4m
+2026-06-09T11:17:50.118+08:00,T01,A01,,,4.0,4.0525,yes,clean calibration 4m
+2026-06-09T11:17:51.132+08:00,T01,A01,,,4.0,3.9868,yes,clean calibration 4m
+2026-06-09T11:17:52.145+08:00,T01,A01,,,4.0,4.0759,yes,clean calibration 4m

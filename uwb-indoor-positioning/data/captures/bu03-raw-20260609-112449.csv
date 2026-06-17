@@ -1,0 +1,5 @@
+timestamp,port,baudrate,line
+2026-06-09T11:24:49.143+08:00,/dev/cu.usbserial-2110,115200,"getdev cap:10 anndelay:16336, kalman_enable:1, kalman_Q:0.018, kalman_R:0.642, para_a:0.9895, para_b:-63.30, pos_enable:0, pos_dimen:0"
+2026-06-09T11:24:49.143+08:00,/dev/cu.usbserial-2110,115200,
+2026-06-09T11:24:49.143+08:00,/dev/cu.usbserial-2110,115200,OK
+2026-06-09T11:24:49.143+08:00,/dev/cu.usbserial-2110,115200,send resp fault

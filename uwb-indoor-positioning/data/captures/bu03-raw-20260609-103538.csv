@@ -1,0 +1,5 @@
+timestamp,port,baudrate,line
+2026-06-09T10:35:38.929+08:00,/dev/cu.usbserial-2110,115200,"setcfg ID:1, Role:1, CH:1, Rate:1"
+2026-06-09T10:35:38.929+08:00,/dev/cu.usbserial-2110,115200,
+2026-06-09T10:35:38.929+08:00,/dev/cu.usbserial-2110,115200,OK
+2026-06-09T10:35:38.941+08:00,/dev/cu.usbserial-2110,115200,ID:1 角色:基站 信道:5 速率：6.8M

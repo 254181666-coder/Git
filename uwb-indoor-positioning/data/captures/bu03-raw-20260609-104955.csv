@@ -1,0 +1,4 @@
+timestamp,port,baudrate,line
+2026-06-09T10:49:55.888+08:00,/dev/cu.usbserial-2110,115200,distance: 6.303840
+2026-06-09T10:49:55.888+08:00,/dev/cu.usbserial-2110,115200,
+2026-06-09T10:49:55.888+08:00,/dev/cu.usbserial-2110,115200,OK

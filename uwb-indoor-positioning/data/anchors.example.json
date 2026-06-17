@@ -1,0 +1,39 @@
+{
+  "storeId": "store-001",
+  "unit": "meter",
+  "anchors": [
+    {
+      "id": "A01",
+      "role": "anchor",
+      "x": 0,
+      "y": 0,
+      "z": 2.5,
+      "notes": "front-left corner"
+    },
+    {
+      "id": "A02",
+      "role": "anchor",
+      "x": 6,
+      "y": 0,
+      "z": 2.5,
+      "notes": "front-right corner"
+    },
+    {
+      "id": "A03",
+      "role": "anchor",
+      "x": 0,
+      "y": 4,
+      "z": 2.5,
+      "notes": "back-left corner"
+    },
+    {
+      "id": "A04",
+      "role": "anchor",
+      "x": 6,
+      "y": 4,
+      "z": 2.5,
+      "notes": "back-right corner"
+    }
+  ]
+}
+

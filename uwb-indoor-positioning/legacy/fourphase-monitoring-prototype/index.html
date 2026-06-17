@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UWB人员定位监控</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #f0f2f5;
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .map-area {
+            flex: 1;
+            background: #e8f4f8;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .map-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: linear-gradient(135deg, #e8f4f8 0%, #d1e8f0 100%);
+        }
+        
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        
+        .marker {
+            position: absolute;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .marker:hover {
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+        
+        .marker-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .marker-person {
+            background: #2196F3;
+        }
+        
+        .marker-item {
+            background: #795548;
+        }
+        
+        .marker-alarm {
+            background: #f44336;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7); }
+            50% { box-shadow: 0 0 0 10px rgba(244, 67, 54, 0); }
+        }
+        
+        .marker-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+            pointer-events: none;
+        }
+        
+        .sidebar {
+            width: 360px;
+            background: #f5f5f5;
+            padding: 20px;
+            overflow-y: auto;
+            border-left: 1px solid #ddd;
+        }
+        
+        .sidebar h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 18px;
+        }
+        
+        .stats {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .stats div {
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .stats div:last-child {
+            border-bottom: none;
+        }
+        
+        .stat-value {
+            font-weight: bold;
+            color: #2196F3;
+        }
+        
+        .order-list, .item-list, .alarm-list {
+            margin-top: 20px;
+        }
+        
+        .order-item, .item-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .order-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .order-meta {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .task-item {
+            font-size: 13px;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            background: #f5f5f5;
+            border-left: 3px solid #ccc;
+        }
+        
+        .task-item.pending {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .task-item.arrived {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        
+        .task-item.timeout {
+            border-left-color: #dc3545;
+            background: #f8d7da;
+        }
+        
+        .task-name {
+            display: inline-block;
+            width: 150px;
+        }
+        
+        .task-status {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .alarm-item {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        
+        .alarm-item.critical {
+            background: #f8d7da;
+            border-left-color: #dc3545;
+        }
+        
+        .alarm-time {
+            font-size: 11px;
+            color: #666;
+        }
+        
+        .alarm-message {
+            margin-top: 5px;
+            font-weight: 500;
+        }
+        
+        .connection-status {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .connection-status.connected {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .connection-status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 13px;
+            pointer-events: none;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: none;
+            max-width: 200px;
+        }
+        
+        .tooltip.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="map-area">
+            <div class="map-container" id="mapContainer">
+                <div class="grid-overlay"></div>
+                <div id="markersContainer"></div>
+                <div class="tooltip" id="tooltip"></div>
+            </div>
+        </div>
+        
+        <div class="sidebar">
+            <h3>🗺️ UWB定位监控</h3>
+            
+            <div class="connection-status connected" id="connectionStatus">
+                ✅ WebSocket已连接
+            </div>
+            
+            <div class="stats">
+                <div><span>在线人员</span><span class="stat-value" id="statPerson">0</span></div>
+                <div><span>在线物品</span><span class="stat-value" id="statItem">0</span></div>
+                <div><span>当前告警</span><span class="stat-value" id="statAlarm">0</span></div>
+            </div>
+            
+            <div class="stats">
+                <div><span>待检查任务</span><span class="stat-value" id="statPending">0</span></div>
+                <div><span>超时未到位</span><span class="stat-value" id="statTimeout">0</span></div>
+            </div>
+            
+            <div class="order-list">
+                <h4>📋 服务订单</h4>
+                <div id="serviceOrders">
+                    <div style="color: #999; padding: 20px; text-align: center;">暂无活跃订单</div>
+                </div>
+            </div>
+            
+            <div class="item-list">
+                <h4>📦 物品在位统计</h4>
+                <div id="itemStats">
+                    <div style="color: #999; padding: 20px; text-align: center;">暂无物品数据</div>
+                </div>
+            </div>
+            
+            <div class="alarm-list">
+                <h4>⚠️ 活跃告警</h4>
+                <div id="activeAlarms">
+                    <div style="color: #999; padding: 20px; text-align: center;">暂无告警</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const WS_URL = 'ws://' + window.location.hostname + ':8887';
+        const UWB_BOUNDS = { minX: 0, maxX: 150, minY: 0, maxY: 100 };
+        
+        let currentLocations = {};
+        let serviceOrders = {};
+        let itemStatsData = {};
+        let activeAlarms = [];
+        let ws = null;
+        
+        function init() {
+            connectWebSocket();
+        }
+        
+        function connectWebSocket() {
+            ws = new WebSocket(WS_URL);
+            
+            ws.onopen = () => {
+                console.log('WebSocket connected');
+                updateConnectionStatus(true);
+            };
+            
+            ws.onmessage = (event) => {
+                const msg = JSON.parse(event.data);
+                handleMessage(msg);
+            };
+            
+            ws.onclose = () => {
+                console.log('WebSocket disconnected, reconnecting in 3s');
+                updateConnectionStatus(false);
+                setTimeout(connectWebSocket, 3000);
+            };
+            
+            ws.onerror = (err) => {
+                console.error('WebSocket error', err);
+                updateConnectionStatus(false);
+            };
+        }
+        
+        function updateConnectionStatus(connected) {
+            const status = document.getElementById('connectionStatus');
+            if (connected) {
+                status.className = 'connection-status connected';
+                status.innerHTML = '✅ WebSocket已连接';
+            } else {
+                status.className = 'connection-status disconnected';
+                status.innerHTML = '❌ WebSocket已断开，正在重连...';
+            }
+        }
+        
+        function handleMessage(msg) {
+            switch (msg.type) {
+                case 'initial':
+                    msg.data.forEach(loc => updateLocation(loc));
+                    break;
+                case 'initial_orders':
+                    serviceOrders = msg.data || {};
+                    renderOrders();
+                    updateOrderStats();
+                    break;
+                case 'item_stats_update':
+                    itemStatsData = msg.data || {};
+                    renderItemStats();
+                    break;
+                case 'location':
+                    updateLocation(msg.data);
+                    break;
+                case 'alarm_start':
+                    if (msg.data.location) {
+                        updateLocation(msg.data.location);
+                    }
+                    addAlarm(msg.data.alarm);
+                    break;
+                case 'alarm_stop':
+                    if (msg.data.card_id && currentLocations[msg.data.card_id]) {
+                        currentLocations[msg.data.card_id].is_alarm = false;
+                        currentLocations[msg.data.card_id].alarm_info = null;
+                        updateLocation(currentLocations[msg.data.card_id]);
+                    }
+                    activeAlarms = activeAlarms.filter(a => a.id !== msg.data.id);
+                    renderAlarms();
+                    break;
+                case 'order_created':
+                    if (msg.data.order_id) {
+                        serviceOrders[msg.data.order_id] = msg.data;
+                        renderOrders();
+                        updateOrderStats();
+                    }
+                    break;
+                case 'task_updated':
+                case 'task_timeout':
+                    if (msg.data.order_id && msg.data.task) {
+                        if (serviceOrders[msg.data.order_id]) {
+                            const task = serviceOrders[msg.data.order_id].tasks.find(t => t.task_id === msg.data.task.task_id);
+                            if (task) {
+                                Object.assign(task, msg.data.task);
+                            }
+                        }
+                    }
+                    renderOrders();
+                    updateOrderStats();
+                    break;
+            }
+        }
+        
+        function updateLocation(loc) {
+            currentLocations[loc.card_id] = loc;
+            renderMarkers();
+            updateStats();
+        }
+        
+        function renderMarkers() {
+            const container = document.getElementById('markersContainer');
+            container.innerHTML = '';
+            
+            const mapContainer = document.getElementById('mapContainer');
+            const containerWidth = mapContainer.clientWidth;
+            const containerHeight = mapContainer.clientHeight;
+            
+            Object.values(currentLocations).forEach(loc => {
+                const x = (loc.x - UWB_BOUNDS.minX) / (UWB_BOUNDS.maxX - UWB_BOUNDS.minX) * containerWidth;
+                const y = (1 - (loc.y - UWB_BOUNDS.minY) / (UWB_BOUNDS.maxY - UWB_BOUNDS.minY)) * containerHeight;
+                
+                const marker = document.createElement('div');
+                marker.className = 'marker';
+                marker.style.left = x + 'px';
+                marker.style.top = y + 'px';
+                
+                let markerClass = 'marker-person';
+                if (loc.utype === 5) markerClass = 'marker-item';
+                if (loc.is_alarm) markerClass = 'marker-alarm';
+                
+                marker.innerHTML = `
+                    <div class="marker-dot ${markerClass}">
+                        ${loc.utype === 5 ? '📦' : '👤'}
+                    </div>
+                    <div class="marker-label">${loc.name}</div>
+                `;
+                
+                marker.addEventListener('mouseenter', (e) => showTooltip(e, loc));
+                marker.addEventListener('mouseleave', hideTooltip);
+                marker.addEventListener('mousemove', moveTooltip);
+                
+                container.appendChild(marker);
+            });
+        }
+        
+        function showTooltip(e, loc) {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.innerHTML = `
+                <strong>${loc.name}</strong><br>
+                卡号: ${loc.card_id}<br>
+                坐标: ${loc.x.toFixed(2)}, ${loc.y.toFixed(2)}<br>
+                楼层: ${loc.floor_name || loc.floor_id}<br>
+                ${loc.is_alarm ? '<br><span style="color: #ff6b6b;">⚠ ' + loc.alarm_info + '</span>' : ''}
+            `;
+            tooltip.classList.add('show');
+            moveTooltip(e);
+        }
+        
+        function hideTooltip() {
+            document.getElementById('tooltip').classList.remove('show');
+        }
+        
+        function moveTooltip(e) {
+            const tooltip = document.getElementById('tooltip');
+            const mapContainer = document.getElementById('mapContainer');
+            const rect = mapContainer.getBoundingClientRect();
+            
+            tooltip.style.left = (e.clientX - rect.left + 15) + 'px';
+            tooltip.style.top = (e.clientY - rect.top + 15) + 'px';
+        }
+        
+        function updateStats() {
+            let personCount = 0;
+            let itemCount = 0;
+            let alarmCount = 0;
+            
+            Object.values(currentLocations).forEach(loc => {
+                if (loc.utype === 1) personCount++;
+                if (loc.utype === 5) itemCount++;
+                if (loc.is_alarm) alarmCount++;
+            });
+            
+            document.getElementById('statPerson').textContent = personCount;
+            document.getElementById('statItem').textContent = itemCount;
+            document.getElementById('statAlarm').textContent = alarmCount;
+        }
+        
+        function updateOrderStats() {
+            let pendingCount = 0;
+            let timeoutCount = 0;
+            
+            Object.values(serviceOrders).forEach(order => {
+                if (order.status === 'active' && order.tasks) {
+                    order.tasks.forEach(task => {
+                        if (task.status === 'pending') pendingCount++;
+                        if (task.status === 'timeout') timeoutCount++;
+                    });
+                }
+            });
+            
+            document.getElementById('statPending').textContent = pendingCount;
+            document.getElementById('statTimeout').textContent = timeoutCount;
+        }
+        
+        function renderOrders() {
+            const container = document.getElementById('serviceOrders');
+            const orders = Object.values(serviceOrders).filter(o => o.status === 'active').sort((a, b) => b.create_time - a.create_time);
+            
+            if (orders.length === 0) {
+                container.innerHTML = '<div style="color: #999; padding: 20px; text-align: center;">暂无活跃订单</div>';
+                return;
+            }
+            
+            const statusText = { pending: '⏳ 待检查', arrived: '✅ 已到位', timeout: '❌ 超时未到位' };
+            
+            container.innerHTML = orders.map(order => `
+                <div class="order-item">
+                    <div class="order-title">${order.customer_name} - ${order.room_number}</div>
+                    <div class="order-meta">开单时间: ${new Date(order.create_time).toLocaleString()}</div>
+                    ${(order.tasks || []).map(task => `
+                        <div class="task-item ${task.status}">
+                            <span class="task-name">${task.task_name} - ${task.assigned_name}</span>
+                            <span class="task-status">${statusText[task.status]} ${task.duration_minutes ? '• 在位 ' + task.duration_minutes + ' 分钟' : ''}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+        }
+        
+        function renderItemStats() {
+            const container = document.getElementById('itemStats');
+            const items = Object.values(itemStatsData);
+            
+            if (items.length === 0) {
+                container.innerHTML = '<div style="color: #999; padding: 20px; text-align: center;">暂无物品数据</div>';
+                return;
+            }
+            
+            container.innerHTML = items.map(item => `
+                <div class="item-item">
+                    <div style="font-weight: bold; margin-bottom: 5px;">${item.item_name}</div>
+                    ${item.current_area_name ? `<div style="color: #2196F3; font-size: 12px;">当前在: ${item.current_area_name}</div>` : ''}
+                    <div style="color: #666; font-size: 12px; margin-top: 5px;">今日累计在位: ${item.total_duration_today} 分钟</div>
+                </div>
+            `).join('');
+        }
+        
+        function addAlarm(alarm) {
+            activeAlarms.push({
+                id: alarm.id,
+                ruleName: alarm.rule_name,
+                level: alarm.level,
+                message: alarm.message,
+                time: alarm.time,
+                cardName: null
+            });
+            renderAlarms();
+        }
+        
+        function renderAlarms() {
+            const container = document.getElementById('activeAlarms');
+            
+            if (activeAlarms.length === 0) {
+                container.innerHTML = '<div style="color: #999; padding: 20px; text-align: center;">暂无告警</div>';
+                return;
+            }
+            
+            container.innerHTML = activeAlarms.map(alarm => {
+                const className = alarm.level === 'a' ? 'alarm-item critical' : 'alarm-item';
+                const timeStr = new Date(alarm.time * 1000).toLocaleString();
+                return `
+                    <div class="${className}">
+                        <div class="alarm-time">${timeStr} ${alarm.ruleName} ${alarm.cardName || ''}</div>
+                        <div class="alarm-message">${alarm.message}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        window.addEventListener('resize', () => {
+            renderMarkers();
+        });
+        
+        init();
+    </script>
+</body>
+</html>
