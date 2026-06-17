@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.ktv.dailyimport</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/zsh</string>
+        <string>/Users/ann/Desktop/AI/Project/数据导入/scripts/daily_import.sh</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/ann/Desktop/AI/Project/数据导入</string>
+    <key>StandardOutPath</key>
+    <string>/Users/ann/Desktop/AI/Project/数据导入/data/logs/launchd_import.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/ann/Desktop/AI/Project/数据导入/data/logs/launchd_import.error.log</string>
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict>
+            <key>Hour</key>
+            <integer>9</integer>
+            <key>Minute</key>
+            <integer>40</integer>
+        </dict>
+    </array>
+    <key>RunAtLoad</key>
+    <false/>
+    <key>KeepAlive</key>
+    <false/>
+</dict>
+</plist>

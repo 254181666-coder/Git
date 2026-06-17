@@ -1,0 +1,470 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>去年5月 vs 今年5月 - 同期对比报告</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #ffffff;
+            color: #333333;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #333333;
+        }
+        .subtitle {
+            color: #666666;
+            font-size: 1.1em;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+        }
+        .card h3 {
+            font-size: 0.9em;
+            color: #666666;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .card .value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .positive { color: #10b981; }
+        .negative { color: #ef4444; }
+        .section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            margin-bottom: 25px;
+            color: #333333;
+            font-size: 1.5em;
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .chart-container {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+        }
+        .chart-container h4 {
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .table th {
+            background: #f0f0f0;
+            font-weight: 600;
+            color: #333333;
+        }
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .summary-item {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+        }
+        .summary-item .label {
+            color: #666666;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        .summary-item .value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333333;
+        }
+        .store-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .store-name {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #333333;
+        }
+        .store-period {
+            font-size: 1em;
+            color: #666666;
+        }
+        .date-label {
+            color: #666666;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>去年5月 vs 今年5月 - 同期对比报告</h1>
+            <p class="subtitle">上东店 & 晨宇店</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card">
+                <h3>上东店 - 总营业额变化</h3>
+                <div class="value negative">
+                    ¥-196,046
+                </div>
+                <div class="label">
+                    -30.6%
+                </div>
+            </div>
+            <div class="card">
+                <h3>晨宇店 - 总营业额变化</h3>
+                <div class="value negative">
+                    ¥-124,468
+                </div>
+                <div class="label">
+                    -26.7%
+                </div>
+            </div>
+            <div class="card">
+                <h3>上东店 - 日均变化</h3>
+                <div class="value negative">
+                    ¥-15,080
+                </div>
+                <div class="label">
+                    今年 ¥34,187 vs 去年 ¥49,268
+                </div>
+            </div>
+            <div class="card">
+                <h3>晨宇店 - 日均变化</h3>
+                <div class="value negative">
+                    ¥-9,574
+                </div>
+                <div class="label">
+                    今年 ¥26,316 vs 去年 ¥35,890
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="store-header">
+                <div class="store-name">上东店</div>
+                <div class="store-period">2025年5月 vs 2026年5月</div>
+            </div>
+            <p class="date-label">对比日期: 5月01日 - 5月13日 (13天)</p>
+            
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="label">去年总营业额</div>
+                    <div class="value">¥640,482</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">今年总营业额</div>
+                    <div class="value">¥444,436</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">去年超市收入</div>
+                    <div class="value">¥0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">今年超市收入</div>
+                    <div class="value">¥81,945</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">去年房费收入</div>
+                    <div class="value">¥0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">今年房费收入</div>
+                    <div class="value">¥11,366</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">去年储值卡销售</div>
+                    <div class="value">¥372,683</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">今年储值卡销售</div>
+                    <div class="value">¥244,788</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">去年总待客台数</div>
+                    <div class="value">3,992台</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">今年总待客台数</div>
+                    <div class="value">3,094台</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="store-header">
+                <div class="store-name">晨宇店</div>
+                <div class="store-period">2025年5月 vs 2026年5月</div>
+            </div>
+            <p class="date-label">对比日期: 5月01日 - 5月13日 (13天)</p>
+            
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="label">去年总营业额</div>
+                    <div class="value">¥466,576</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">今年总营业额</div>
+                    <div class="value">¥342,108</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">去年超市收入</div>
+                    <div class="value">¥0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">今年超市收入</div>
+                    <div class="value">¥56,578</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">去年房费收入</div>
+                    <div class="value">¥0</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">今年房费收入</div>
+                    <div class="value">¥14,172</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">去年储值卡销售</div>
+                    <div class="value">¥234,654</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">今年储值卡销售</div>
+                    <div class="value">¥190,512</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">去年总待客台数</div>
+                    <div class="value">2,589台</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">今年总待客台数</div>
+                    <div class="value">2,127台</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>可视化对比</h2>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h4>上东店 - 总营业额对比</h4>
+                    <canvas id="sdTotalChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>晨宇店 - 总营业额对比</h4>
+                    <canvas id="cyTotalChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>收入构成对比 - 上东店</h4>
+                    <canvas id="sdBreakdownChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>收入构成对比 - 晨宇店</h4>
+                    <canvas id="cyBreakdownChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>上东店 - 每日对比</h4>
+                    <canvas id="sdDailyChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h4>晨宇店 - 每日对比</h4>
+                    <canvas id="cyDailyChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { labels: { color: '#333333' } }
+                },
+                scales: {
+                    x: { ticks: { color: '#666666' }, grid: { color: '#e0e0e0' } },
+                    y: { ticks: { color: '#666666' }, grid: { color: '#e0e0e0' } }
+                }
+            };
+
+            // 上东店总营业额
+            new Chart(document.getElementById('sdTotalChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['2025年5月', '2026年5月'],
+                    datasets: [{
+                        label: '总营业额',
+                        data: [640482.0, 444435.71],
+                        backgroundColor: ['#3b82f6', '#10b981'],
+                        borderWidth: 0
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // 晨宇店总营业额
+            new Chart(document.getElementById('cyTotalChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['2025年5月', '2026年5月'],
+                    datasets: [{
+                        label: '总营业额',
+                        data: [466576.49000000005, 342108.03],
+                        backgroundColor: ['#f59e0b', '#8b5cf6'],
+                        borderWidth: 0
+                    }]
+                },
+                options: chartOptions
+            });
+
+            // 上东店收入构成
+            new Chart(document.getElementById('sdBreakdownChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['超市收入', '房费收入', '储值卡销售'],
+                    datasets: [
+                        {
+                            label: '2025年5月',
+                            data: [0.0, 0.0, 372683.0],
+                            backgroundColor: '#3b82f6'
+                        },
+                        {
+                            label: '2026年5月',
+                            data: [81944.88, 11365.88, 244788.0],
+                            backgroundColor: '#10b981'
+                        }
+                    ]
+                },
+                options: chartOptions
+            });
+
+            // 晨宇店收入构成
+            new Chart(document.getElementById('cyBreakdownChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['超市收入', '房费收入', '储值卡销售'],
+                    datasets: [
+                        {
+                            label: '2025年5月',
+                            data: [0.0, 0.0, 234654.00999999998],
+                            backgroundColor: '#f59e0b'
+                        },
+                        {
+                            label: '2026年5月',
+                            data: [56577.68, 14171.85, 190512.4],
+                            backgroundColor: '#8b5cf6'
+                        }
+                    ]
+                },
+                options: chartOptions
+            });
+
+            // 上东店每日对比
+            new Chart(document.getElementById('sdDailyChart'), {
+                type: 'line',
+                data: {
+                    labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13'],
+                    datasets: [
+                        {
+                            label: '2025年',
+                            data: [71910.9, 52699.7, 80927.7, 71979.2, 44472.4, 36077.8, 26269.8, 42409.0, 48680.9, 57019.2, 39126.9, 30256.5, 38652.0],
+                            borderColor: '#3b82f6',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: '2026年',
+                            data: [37720.92, 42788.11, 44214.23, 45301.28, 28368.6, 20120.97, 29466.17, 35380.74, 44798.09, 30434.8, 28234.01, 19974.58, 37633.21],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: chartOptions
+            });
+
+            // 晨宇店每日对比
+            new Chart(document.getElementById('cyDailyChart'), {
+                type: 'line',
+                data: {
+                    labels: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13'],
+                    datasets: [
+                        {
+                            label: '2025年',
+                            data: [46480.89, 47580.3, 58665.6, 50701.1, 27995.3, 26295.5, 27343.6, 23254.4, 40505.3, 40118.0, 27431.9, 25894.9, 24309.7],
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: '2026年',
+                            data: [40804.73, 37423.83, 42208.85, 32018.98, 22337.76, 20009.35, 20877.04, 20044.51, 29494.12, 22304.94, 16593.67, 19430.11, 18560.14],
+                            borderColor: '#8b5cf6',
+                            backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        }
+                    ]
+                },
+                options: chartOptions
+            });
+        </script>
+    </div>
+</body>
+</html>

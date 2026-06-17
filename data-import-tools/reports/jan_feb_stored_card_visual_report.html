@@ -1,0 +1,1122 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026年1-2月储值卡会员消耗分析</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #1a1a1a;
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        .container { max-width: 1600px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            color: #666666;
+            font-size: 1.1em;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card h3 {
+            font-size: 0.9em;
+            color: #666666;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .card .value {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card .label {
+            color: #666666;
+            font-size: 0.85em;
+        }
+        .section {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .section h2 {
+            margin-bottom: 25px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5em;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+        .table th, .table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .table th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            font-weight: 600;
+            color: #fff;
+        }
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+        .table .number {
+            text-align: right;
+            font-family: 'SF Mono', 'Consolas', monospace;
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .chart-container {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .chart-container h3 {
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .recharge-compare {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .recharge-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 25px;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .recharge-card h3 {
+            font-size: 1em;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+        .recharge-card .amount {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .recharge-card .detail {
+            font-size: 0.9em;
+            opacity: 0.85;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>2026年1-2月 储值卡会员消耗分析</h1>
+            <p class="subtitle">数据期间：2026年1月1日 - 2月28日</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card">
+                <h3>总储值会员</h3>
+                <div class="value">16,023人</div>
+                <div class="label">1-2月参与储值</div>
+            </div>
+            <div class="card">
+                <h3>总充值本金</h3>
+                <div class="value">¥21,739,551</div>
+                <div class="label">首充+复充合计</div>
+            </div>
+            <div class="card">
+                <h3>总已消耗</h3>
+                <div class="value">¥13,104,959</div>
+                <div class="label">本金消耗合计</div>
+            </div>
+            <div class="card">
+                <h3>总剩余本金</h3>
+                <div class="value">¥8,634,593</div>
+                <div class="label">待消耗金额</div>
+            </div>
+            <div class="card">
+                <h3>平均消耗比例</h3>
+                <div class="value">56.6%</div>
+                <div class="label">会员均值</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>首充 vs 复充对比</h2>
+            <div class="recharge-compare">
+                <div class="recharge-card">
+                    <h3>💳 首次充值</h3>
+                    <div class="amount">¥6,663,482</div>
+                    <div class="detail">首充笔数：6,260 笔</div>
+                    <div class="detail">首充会员：6,260 人</div>
+                    <div class="detail">占比：46.2%</div>
+                </div>
+                <div class="recharge-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <h3>🔄 重复充值</h3>
+                    <div class="amount">¥10,281,361</div>
+                    <div class="detail">复充笔数：7,287 笔</div>
+                    <div class="detail">复充会员：6,484 人</div>
+                    <div class="detail">占比：53.8%</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h3>各门店总充值本金对比</h3>
+                <canvas id="storeRechargeChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>各门店消耗比例对比</h3>
+                <canvas id="storeConsumptionChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>充值频次分布</h3>
+                <canvas id="rechargeFreqChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>首充 vs 复充金额占比</h3>
+                <canvas id="rechargeTypeChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>各门店复购率对比</h3>
+                <canvas id="repurchaseChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>各门店会员数与平均充值次数</h3>
+                <canvas id="memberChart"></canvas>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>各门店详细统计</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>门店</th>
+                        <th class="number">会员数</th>
+                        <th class="number">总充值本金</th>
+                        <th class="number">总消耗本金</th>
+                        <th class="number">总剩余本金</th>
+                        <th class="number">消耗比例</th>
+                        <th class="number">平均充值次数</th>
+                        <th class="number">复购率</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>通辽店</td>
+                        <td class="number">1,599</td>
+                        <td class="number">¥3,706,324</td>
+                        <td class="number">¥2,433,697</td>
+                        <td class="number">¥1,272,627</td>
+                        <td class="number">65.7%</td>
+                        <td class="number">1.1</td>
+                        <td class="number">87.4%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原一店</td>
+                        <td class="number">1,624</td>
+                        <td class="number">¥3,621,801</td>
+                        <td class="number">¥1,941,099</td>
+                        <td class="number">¥1,680,702</td>
+                        <td class="number">53.6%</td>
+                        <td class="number">1.0</td>
+                        <td class="number">82.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>佳木斯店</td>
+                        <td class="number">1,310</td>
+                        <td class="number">¥2,595,579</td>
+                        <td class="number">¥1,764,879</td>
+                        <td class="number">¥830,700</td>
+                        <td class="number">68.0%</td>
+                        <td class="number">1.0</td>
+                        <td class="number">79.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>上东店</td>
+                        <td class="number">967</td>
+                        <td class="number">¥1,851,477</td>
+                        <td class="number">¥1,092,950</td>
+                        <td class="number">¥758,527</td>
+                        <td class="number">59.0%</td>
+                        <td class="number">1.0</td>
+                        <td class="number">69.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>安达店</td>
+                        <td class="number">1,285</td>
+                        <td class="number">¥1,790,611</td>
+                        <td class="number">¥995,538</td>
+                        <td class="number">¥795,073</td>
+                        <td class="number">55.6%</td>
+                        <td class="number">1.1</td>
+                        <td class="number">77.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>鸡西店</td>
+                        <td class="number">810</td>
+                        <td class="number">¥1,650,747</td>
+                        <td class="number">¥1,051,960</td>
+                        <td class="number">¥598,788</td>
+                        <td class="number">63.7%</td>
+                        <td class="number">1.1</td>
+                        <td class="number">78.1%</td>
+                    </tr>
+
+                    <tr>
+                        <td>通化店</td>
+                        <td class="number">843</td>
+                        <td class="number">¥1,650,355</td>
+                        <td class="number">¥1,041,877</td>
+                        <td class="number">¥608,478</td>
+                        <td class="number">63.1%</td>
+                        <td class="number">1.1</td>
+                        <td class="number">65.5%</td>
+                    </tr>
+
+                    <tr>
+                        <td>晨宇店</td>
+                        <td class="number">737</td>
+                        <td class="number">¥1,344,272</td>
+                        <td class="number">¥783,637</td>
+                        <td class="number">¥560,635</td>
+                        <td class="number">58.3%</td>
+                        <td class="number">1.0</td>
+                        <td class="number">64.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原二店</td>
+                        <td class="number">1,106</td>
+                        <td class="number">¥1,280,473</td>
+                        <td class="number">¥665,602</td>
+                        <td class="number">¥614,871</td>
+                        <td class="number">52.0%</td>
+                        <td class="number">1.0</td>
+                        <td class="number">65.4%</td>
+                    </tr>
+
+                    <tr>
+                        <td>榆树店</td>
+                        <td class="number">942</td>
+                        <td class="number">¥946,092</td>
+                        <td class="number">¥581,332</td>
+                        <td class="number">¥364,760</td>
+                        <td class="number">61.4%</td>
+                        <td class="number">1.0</td>
+                        <td class="number">56.4%</td>
+                    </tr>
+
+                    <tr>
+                        <td>法库店</td>
+                        <td class="number">524</td>
+                        <td class="number">¥706,208</td>
+                        <td class="number">¥429,859</td>
+                        <td class="number">¥276,349</td>
+                        <td class="number">60.9%</td>
+                        <td class="number">1.0</td>
+                        <td class="number">70.6%</td>
+                    </tr>
+
+                    <tr>
+                        <td>红旗街店</td>
+                        <td class="number">648</td>
+                        <td class="number">¥595,611</td>
+                        <td class="number">¥322,528</td>
+                        <td class="number">¥273,083</td>
+                        <td class="number">54.2%</td>
+                        <td class="number">1.0</td>
+                        <td class="number">29.9%</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>会员明细 (Top 50)</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>门店</th>
+                        <th>会员</th>
+                        <th>手机号</th>
+                        <th class="number">充值次数</th>
+                        <th class="number">总充值本金</th>
+                        <th class="number">已消耗</th>
+                        <th class="number">剩余本金</th>
+                        <th class="number">消耗比例</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>上东店</td>
+                        <td>林</td>
+                        <td>8098</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥300</td>
+                        <td class="number">¥1,014</td>
+                        <td class="number">22.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>上东店</td>
+                        <td>姜女士</td>
+                        <td>0113</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥558</td>
+                        <td class="number">¥756</td>
+                        <td class="number">42.5%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原二店</td>
+                        <td>张女士</td>
+                        <td>1100</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,000</td>
+                        <td class="number">¥104</td>
+                        <td class="number">¥896</td>
+                        <td class="number">10.4%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原二店</td>
+                        <td>大姐</td>
+                        <td>6707</td>
+                        <td class="number">1</td>
+                        <td class="number">¥518</td>
+                        <td class="number">¥518</td>
+                        <td class="number">¥0</td>
+                        <td class="number">100.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>法库店</td>
+                        <td>耿先生</td>
+                        <td>3855</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,000</td>
+                        <td class="number">¥624</td>
+                        <td class="number">¥376</td>
+                        <td class="number">62.4%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原二店</td>
+                        <td>王鹏</td>
+                        <td>2226</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥596</td>
+                        <td class="number">¥718</td>
+                        <td class="number">45.4%</td>
+                    </tr>
+
+                    <tr>
+                        <td>上东店</td>
+                        <td>135****2</td>
+                        <td>2311</td>
+                        <td class="number">1</td>
+                        <td class="number">¥500</td>
+                        <td class="number">¥500</td>
+                        <td class="number">¥0</td>
+                        <td class="number">100.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>通辽店</td>
+                        <td>137****9</td>
+                        <td>9939</td>
+                        <td class="number">2</td>
+                        <td class="number">¥3,000</td>
+                        <td class="number">¥2,502</td>
+                        <td class="number">¥498</td>
+                        <td class="number">83.4%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原一店</td>
+                        <td>拒签</td>
+                        <td>3359</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥1,181</td>
+                        <td class="number">¥133</td>
+                        <td class="number">89.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>通辽店</td>
+                        <td>156****3</td>
+                        <td>3560</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥1,259</td>
+                        <td class="number">¥55</td>
+                        <td class="number">95.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原二店</td>
+                        <td>王哥</td>
+                        <td>5945</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥0</td>
+                        <td class="number">100.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原二店</td>
+                        <td>王哥</td>
+                        <td>5945</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥0</td>
+                        <td class="number">100.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>通辽店</td>
+                        <td>177****0</td>
+                        <td>0009</td>
+                        <td class="number">2</td>
+                        <td class="number">¥4,314</td>
+                        <td class="number">¥4,314</td>
+                        <td class="number">¥0</td>
+                        <td class="number">100.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原一店</td>
+                        <td>张</td>
+                        <td>3626</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥930</td>
+                        <td class="number">¥384</td>
+                        <td class="number">70.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>通辽店</td>
+                        <td>候先生</td>
+                        <td>5345</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,000</td>
+                        <td class="number">¥949</td>
+                        <td class="number">¥51</td>
+                        <td class="number">94.9%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原二店</td>
+                        <td>邵</td>
+                        <td>1852</td>
+                        <td class="number">1</td>
+                        <td class="number">¥398</td>
+                        <td class="number">¥398</td>
+                        <td class="number">¥0</td>
+                        <td class="number">100.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>安达店</td>
+                        <td>张</td>
+                        <td>5557</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,000</td>
+                        <td class="number">¥411</td>
+                        <td class="number">¥589</td>
+                        <td class="number">41.1%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原一店</td>
+                        <td>张斯勉</td>
+                        <td>4888</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,000</td>
+                        <td class="number">¥733</td>
+                        <td class="number">¥267</td>
+                        <td class="number">73.3%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原二店</td>
+                        <td>高先生</td>
+                        <td>3636</td>
+                        <td class="number">2</td>
+                        <td class="number">¥656</td>
+                        <td class="number">¥462</td>
+                        <td class="number">¥194</td>
+                        <td class="number">70.5%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原二店</td>
+                        <td>高先生</td>
+                        <td>3636</td>
+                        <td class="number">2</td>
+                        <td class="number">¥656</td>
+                        <td class="number">¥462</td>
+                        <td class="number">¥194</td>
+                        <td class="number">70.5%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原二店</td>
+                        <td>可</td>
+                        <td>3222</td>
+                        <td class="number">1</td>
+                        <td class="number">¥2,000</td>
+                        <td class="number">¥589</td>
+                        <td class="number">¥1,411</td>
+                        <td class="number">29.4%</td>
+                    </tr>
+
+                    <tr>
+                        <td>上东店</td>
+                        <td>yuan</td>
+                        <td>5999</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥1,064</td>
+                        <td class="number">¥250</td>
+                        <td class="number">81.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>榆树店</td>
+                        <td>李先生</td>
+                        <td>6275</td>
+                        <td class="number">1</td>
+                        <td class="number">¥500</td>
+                        <td class="number">¥422</td>
+                        <td class="number">¥78</td>
+                        <td class="number">84.4%</td>
+                    </tr>
+
+                    <tr>
+                        <td>通辽店</td>
+                        <td>马总</td>
+                        <td>5265</td>
+                        <td class="number">1</td>
+                        <td class="number">¥3,000</td>
+                        <td class="number">¥2,594</td>
+                        <td class="number">¥406</td>
+                        <td class="number">86.5%</td>
+                    </tr>
+
+                    <tr>
+                        <td>佳木斯店</td>
+                        <td>安阳</td>
+                        <td>7750</td>
+                        <td class="number">1</td>
+                        <td class="number">¥388</td>
+                        <td class="number">¥90</td>
+                        <td class="number">¥298</td>
+                        <td class="number">23.1%</td>
+                    </tr>
+
+                    <tr>
+                        <td>鸡西店</td>
+                        <td>张先生</td>
+                        <td>3278</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,388</td>
+                        <td class="number">¥1,249</td>
+                        <td class="number">¥139</td>
+                        <td class="number">90.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>红旗街店</td>
+                        <td>毛</td>
+                        <td>3762</td>
+                        <td class="number">1</td>
+                        <td class="number">¥500</td>
+                        <td class="number">¥495</td>
+                        <td class="number">¥5</td>
+                        <td class="number">98.9%</td>
+                    </tr>
+
+                    <tr>
+                        <td>红旗街店</td>
+                        <td>杨</td>
+                        <td>0635</td>
+                        <td class="number">1</td>
+                        <td class="number">¥5,000</td>
+                        <td class="number">¥493</td>
+                        <td class="number">¥4,507</td>
+                        <td class="number">9.9%</td>
+                    </tr>
+
+                    <tr>
+                        <td>红旗街店</td>
+                        <td>杨</td>
+                        <td>0635</td>
+                        <td class="number">1</td>
+                        <td class="number">¥5,000</td>
+                        <td class="number">¥493</td>
+                        <td class="number">¥4,507</td>
+                        <td class="number">9.9%</td>
+                    </tr>
+
+                    <tr>
+                        <td>佳木斯店</td>
+                        <td>182****4</td>
+                        <td>4545</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥473</td>
+                        <td class="number">¥841</td>
+                        <td class="number">36.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>佳木斯店</td>
+                        <td>182****4</td>
+                        <td>4545</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥473</td>
+                        <td class="number">¥841</td>
+                        <td class="number">36.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>红旗街店</td>
+                        <td>杨杨  W</td>
+                        <td>0056</td>
+                        <td class="number">1</td>
+                        <td class="number">¥500</td>
+                        <td class="number">¥69</td>
+                        <td class="number">¥431</td>
+                        <td class="number">13.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原一店</td>
+                        <td>孙</td>
+                        <td>0008</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥-212</td>
+                        <td class="number">¥1,526</td>
+                        <td class="number">-16.1%</td>
+                    </tr>
+
+                    <tr>
+                        <td>上东店</td>
+                        <td>137****8</td>
+                        <td>8445</td>
+                        <td class="number">1</td>
+                        <td class="number">¥5,000</td>
+                        <td class="number">¥3,492</td>
+                        <td class="number">¥1,508</td>
+                        <td class="number">69.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>通辽店</td>
+                        <td>132****3</td>
+                        <td>3357</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥1,218</td>
+                        <td class="number">¥96</td>
+                        <td class="number">92.7%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原二店</td>
+                        <td>卢</td>
+                        <td>7066</td>
+                        <td class="number">1</td>
+                        <td class="number">¥518</td>
+                        <td class="number">¥-786</td>
+                        <td class="number">¥1,304</td>
+                        <td class="number">-151.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>安达店</td>
+                        <td>陈</td>
+                        <td>7477</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,388</td>
+                        <td class="number">¥566</td>
+                        <td class="number">¥822</td>
+                        <td class="number">40.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>上东店</td>
+                        <td>139****7</td>
+                        <td>7418</td>
+                        <td class="number">1</td>
+                        <td class="number">¥500</td>
+                        <td class="number">¥500</td>
+                        <td class="number">¥0</td>
+                        <td class="number">100.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>红旗街店</td>
+                        <td>胡</td>
+                        <td>1557</td>
+                        <td class="number">1</td>
+                        <td class="number">¥500</td>
+                        <td class="number">¥165</td>
+                        <td class="number">¥335</td>
+                        <td class="number">33.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>佳木斯店</td>
+                        <td>181****5</td>
+                        <td>5335</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,000</td>
+                        <td class="number">¥1,000</td>
+                        <td class="number">¥0</td>
+                        <td class="number">100.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>佳木斯店</td>
+                        <td>157****4</td>
+                        <td>4567</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥981</td>
+                        <td class="number">¥333</td>
+                        <td class="number">74.7%</td>
+                    </tr>
+
+                    <tr>
+                        <td>安达店</td>
+                        <td>刘婷婷</td>
+                        <td>1413</td>
+                        <td class="number">1</td>
+                        <td class="number">¥688</td>
+                        <td class="number">¥214</td>
+                        <td class="number">¥474</td>
+                        <td class="number">31.2%</td>
+                    </tr>
+
+                    <tr>
+                        <td>法库店</td>
+                        <td>刘哥</td>
+                        <td>5901</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥-148</td>
+                        <td class="number">¥1,462</td>
+                        <td class="number">-11.2%</td>
+                    </tr>
+
+                    <tr>
+                        <td>安达店</td>
+                        <td>138****0</td>
+                        <td>0474</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,000</td>
+                        <td class="number">¥650</td>
+                        <td class="number">¥350</td>
+                        <td class="number">65.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原一店</td>
+                        <td>勾立伟</td>
+                        <td>5555</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥1,145</td>
+                        <td class="number">¥169</td>
+                        <td class="number">87.2%</td>
+                    </tr>
+
+                    <tr>
+                        <td>松原一店</td>
+                        <td>勾立伟</td>
+                        <td>5555</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,314</td>
+                        <td class="number">¥1,145</td>
+                        <td class="number">¥169</td>
+                        <td class="number">87.2%</td>
+                    </tr>
+
+                    <tr>
+                        <td>榆树店</td>
+                        <td>李先生</td>
+                        <td>1742</td>
+                        <td class="number">2</td>
+                        <td class="number">¥1,000</td>
+                        <td class="number">¥1,000</td>
+                        <td class="number">¥0</td>
+                        <td class="number">100.0%</td>
+                    </tr>
+
+                    <tr>
+                        <td>安达店</td>
+                        <td>186****6</td>
+                        <td>6777</td>
+                        <td class="number">1</td>
+                        <td class="number">¥1,388</td>
+                        <td class="number">¥1,288</td>
+                        <td class="number">¥100</td>
+                        <td class="number">92.8%</td>
+                    </tr>
+
+                    <tr>
+                        <td>通化店</td>
+                        <td>徐</td>
+                        <td>9533</td>
+                        <td class="number">1</td>
+                        <td class="number">¥500</td>
+                        <td class="number">¥242</td>
+                        <td class="number">¥258</td>
+                        <td class="number">48.5%</td>
+                    </tr>
+
+                    <tr>
+                        <td>佳木斯店</td>
+                        <td>185****3</td>
+                        <td>3317</td>
+                        <td class="number">1</td>
+                        <td class="number">¥200</td>
+                        <td class="number">¥-31</td>
+                        <td class="number">¥231</td>
+                        <td class="number">-15.5%</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const chartOptions = {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: { labels: { color: '#1a1a1a' } }
+            },
+            scales: {
+                x: { ticks: { color: '#1a1a1a' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                y: { ticks: { color: '#1a1a1a' }, grid: { color: 'rgba(0,0,0,0.05)' } }
+            }
+        };
+
+        new Chart(document.getElementById('storeRechargeChart'), {
+            type: 'bar',
+            data: {
+                labels: ["通辽店", "松原一店", "佳木斯店", "上东店", "安达店", "鸡西店", "通化店", "晨宇店", "松原二店", "榆树店", "法库店", "红旗街店"],
+                datasets: [{
+                    label: '总充值本金',
+                    data: [3706324.4, 3621801.1, 2595579.0, 1851477.0, 1790611.41, 1650747.4, 1650355.0, 1344272.0, 1280473.0, 946092.0, 706208.1, 595611.0],
+                    backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                    borderWidth: 2
+                }]
+            },
+            options: chartOptions
+        });
+
+        new Chart(document.getElementById('storeConsumptionChart'), {
+            type: 'bar',
+            data: {
+                labels: ["通辽店", "松原一店", "佳木斯店", "上东店", "安达店", "鸡西店", "通化店", "晨宇店", "松原二店", "榆树店", "法库店", "红旗街店"],
+                datasets: [{
+                    label: '消耗比例 (%)',
+                    data: [65.7, 53.6, 68.0, 59.0, 55.6, 63.7, 63.1, 58.3, 52.0, 61.4, 60.9, 54.2],
+                    backgroundColor: 'rgba(240, 147, 251, 0.7)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...chartOptions,
+                scales: {
+                    ...chartOptions.scales,
+                    y: { ...chartOptions.scales.y, beginAtZero: true, max: 100 }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('rechargeFreqChart'), {
+            type: 'pie',
+            data: {
+                labels: ["1次", "2次", "3次", "4次", "5次"],
+                datasets: [{
+                    data: [15448, 518, 43, 12, 2],
+                    backgroundColor: [
+                        'rgba(102, 126, 234, 0.8)',
+                        'rgba(240, 147, 251, 0.8)',
+                        'rgba(245, 87, 108, 0.8)',
+                        'rgba(118, 75, 162, 0.8)',
+                        'rgba(79, 172, 254, 0.8)'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { labels: { color: '#1a1a1a' } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('rechargeTypeChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['首次充值', '重复充值'],
+                datasets: [{
+                    data: [6663481.9, 10281360.51],
+                    backgroundColor: ['rgba(102, 126, 234, 0.8)', 'rgba(240, 147, 251, 0.8)'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { labels: { color: '#1a1a1a' } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('repurchaseChart'), {
+            type: 'bar',
+            data: {
+                labels: ["通辽店", "松原一店", "佳木斯店", "上东店", "安达店", "鸡西店", "通化店", "晨宇店", "松原二店", "榆树店", "法库店", "红旗街店"],
+                datasets: [{
+                    label: '复购率 (%)',
+                    data: [87.4, 82.8, 79.8, 69.8, 77.0, 78.1, 65.5, 64.0, 65.4, 56.4, 70.6, 29.9],
+                    backgroundColor: 'rgba(79, 172, 254, 0.7)',
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                ...chartOptions,
+                scales: {
+                    ...chartOptions.scales,
+                    y: { ...chartOptions.scales.y, beginAtZero: true, max: 100 }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('memberChart'), {
+            type: 'bar',
+            data: {
+                labels: ["通辽店", "松原一店", "佳木斯店", "上东店", "安达店", "鸡西店", "通化店", "晨宇店", "松原二店", "榆树店", "法库店", "红旗街店"],
+                datasets: [
+                    {
+                        label: '会员数',
+                        data: [1599, 1624, 1310, 967, 1285, 810, 843, 737, 1106, 942, 524, 648],
+                        backgroundColor: 'rgba(102, 126, 234, 0.7)',
+                        borderWidth: 2,
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: '平均充值次数',
+                        data: [1.0501999111505997, 1.0247524752475248, 1.0434298440979954, 1.0272873194221508, 1.0595984943538268, 1.0514851485148515, 1.0615384615384615, 1.0209481808158765, 1.0338484179543783, 1.0475367329299914, 1.0316265060240963, 1.0205920205920207],
+                        backgroundColor: 'rgba(240, 147, 251, 0.7)',
+                        borderWidth: 2,
+                        yAxisID: 'y1'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { labels: { color: '#1a1a1a' } }
+                },
+                scales: {
+                    x: { ticks: { color: '#1a1a1a' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        ticks: { color: '#1a1a1a' },
+                        grid: { color: 'rgba(0,0,0,0.05)' },
+                        title: { display: true, text: '会员数', color: '#1a1a1a' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        ticks: { color: '#1a1a1a' },
+                        grid: { drawOnChartArea: false },
+                        title: { display: true, text: '平均充值次数', color: '#1a1a1a' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

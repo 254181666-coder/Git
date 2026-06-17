@@ -1,0 +1,4751 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4月上半月 vs 下半月对比分析</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header {
+            text-align: center; padding: 40px 20px; margin-bottom: 40px;
+            background: rgba(255,255,255,0.05); border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+        }
+        h1 {
+            font-size: 2.5em; margin-bottom: 10px;
+            background: linear-gradient(45deg, #00d4ff, #7b2cbf);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .dashboard {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-bottom: 40px;
+        }
+        .card {
+            background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card h3 { font-size: 1em; color: #a0a0a0; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .card .value { font-size: 2.2em; font-weight: bold; margin-bottom: 10px; }
+        .chart-container {
+            background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px;
+        }
+        .chart-container h2 { margin-bottom: 20px; color: #00d4ff; }
+        .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; }
+        .store-section {
+            background: rgba(255,255,255,0.05); border-radius: 20px; padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px;
+        }
+        .store-section h2 { margin-bottom: 25px; color: #00d4ff; }
+        .store-tabs { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
+        .store-tab {
+            padding: 12px 25px; background: rgba(255,255,255,0.1); border: none;
+            border-radius: 10px; color: #fff; cursor: pointer; transition: all 0.3s; font-size: 1em;
+        }
+        .store-tab:hover { background: rgba(255,255,255,0.2); }
+        .store-tab.active { background: linear-gradient(45deg, #00d4ff, #7b2cbf); }
+        .half-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .half-tab {
+            padding: 10px 20px; background: rgba(255,255,255,0.1); border: none;
+            border-radius: 8px; color: #fff; cursor: pointer; transition: all 0.3s;
+        }
+        .half-tab:hover { background: rgba(255,255,255,0.2); }
+        .half-tab.active { background: linear-gradient(45deg, #4ade80, #22c55e); }
+        .orders-table {
+            width: 100%; border-collapse: collapse; font-size: 0.9em;
+        }
+        .orders-table th, .orders-table td {
+            padding: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .orders-table th { background: rgba(0,0,0,0.2); font-weight: 600; color: #00d4ff; }
+        .orders-table tr:hover { background: rgba(255,255,255,0.05); }
+        .zero-amount { color: #ff6b6b; font-weight: bold; }
+        .member-badge {
+            display: inline-block; padding: 4px 12px;
+            background: linear-gradient(45deg, #00d4ff, #7b2cbf);
+            border-radius: 20px; font-size: 0.85em;
+        }
+        .summary-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;
+            margin-bottom: 25px;
+        }
+        .summary-item {
+            background: rgba(255,255,255,0.05); border-radius: 12px; padding: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .summary-item .label { color: #a0a0a0; font-size: 0.9em; margin-bottom: 8px; }
+        .summary-item .value { font-size: 1.5em; font-weight: bold; }
+        .highlight { color: #ff6b6b; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 4月上半月 vs 下半月对比分析</h1>
+            <p style="color:#a0a0a0; font-size:1.1em">鸡西店 · 安达店 · 通化店</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card">
+                <h3>总订单数（上半月）</h3>
+                <div class="value" style="color:#00d4ff">303</div>
+            </div>
+            <div class="card">
+                <h3>总订单数（下半月）</h3>
+                <div class="value" style="color:#7b2cbf">182</div>
+            </div>
+            <div class="card">
+                <h3>会员订单占比（上半月）</h3>
+                <div class="value" style="color:#4ade80">100.0%</div>
+            </div>
+            <div class="card">
+                <h3>会员订单占比（下半月）</h3>
+                <div class="value" style="color:#fb923c">100.0%</div>
+            </div>
+            <div class="card">
+                <h3>0元订单数（上半月）</h3>
+                <div class="value" style="color:#ef4444">26</div>
+            </div>
+            <div class="card">
+                <h3>0元订单数（下半月）</h3>
+                <div class="value" style="color:#ef4444">20</div>
+            </div>
+        </div>
+        
+        <div class="charts-grid">
+            <div class="chart-container">
+                <h2>各门店订单数对比</h2>
+                <canvas id="ordersChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2>各门店消费金额对比</h2>
+                <canvas id="amountChart"></canvas>
+            </div>
+
+        <div class="store-section">
+            <h2>🎯 鸡西店</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="label">上半月订单数</div>
+                    <div class="value">110</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">下半月订单数</div>
+                    <div class="value">70</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">上半月0元订单</div>
+                    <div class="value highlight">10</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">下半月0元订单</div>
+                    <div class="value highlight">10</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">上半月金额</div>
+                    <div class="value">¥7690</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">下半月金额</div>
+                    <div class="value">¥4650</div>
+                </div>
+            </div>
+            <div class="half-tabs">
+                <button class="half-tab active" onclick="showHalf('鸡西店', 'first')">上半月（4.1-4.15）</button>
+                <button class="half-tab" onclick="showHalf('鸡西店', 'second')">下半月（4.16-4.30）</button>
+            </div>
+            <div id="鸡西店-first" class="order-table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>开房时间</th><th>包厢号</th><th>开房人</th><th>手机号</th><th>是否会员</th><th>实收金额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>2026-04-01 00:23</td>
+                            <td>999</td>
+                            <td>雷总</td>
+                            <td>13136961111.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 00:32</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 00:32</td>
+                            <td>K35</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥38.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 00:40</td>
+                            <td>K02</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 00:47</td>
+                            <td>K19</td>
+                            <td>138****8979</td>
+                            <td>13836518979.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥46.08</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 01:42</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 02:16</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 02:39</td>
+                            <td>K17</td>
+                            <td>155****8506</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 00:08</td>
+                            <td>K16</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 00:12</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥158.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 00:18</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥176.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 02:56</td>
+                            <td>K18</td>
+                            <td>175****3860</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 00:09</td>
+                            <td>K16</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥38.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 00:44</td>
+                            <td>888</td>
+                            <td>周</td>
+                            <td>13199171234.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 00:55</td>
+                            <td>K19</td>
+                            <td>135****4262</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 01:03</td>
+                            <td>K02</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥74.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:00</td>
+                            <td>K09</td>
+                            <td>152****5391</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:00</td>
+                            <td>K10</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:00</td>
+                            <td>K13</td>
+                            <td>134****6774</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:00</td>
+                            <td>K12</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:00</td>
+                            <td>K15</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:10</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:15</td>
+                            <td>K20</td>
+                            <td>158****8805</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥158.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:31</td>
+                            <td>K16</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥158.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 01:01</td>
+                            <td>K17</td>
+                            <td>张</td>
+                            <td>17645351225.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 01:20</td>
+                            <td>K02</td>
+                            <td>195****7579</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:00</td>
+                            <td>K02</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:06</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:08</td>
+                            <td>K17</td>
+                            <td>187****6561</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:19</td>
+                            <td>K08</td>
+                            <td>133****8047</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:44</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥158.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:50</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥78.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 02:35</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 02:47</td>
+                            <td>K17</td>
+                            <td>栾</td>
+                            <td>18403803456.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥122.24</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 00:00</td>
+                            <td>K08</td>
+                            <td>150****3978</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 00:37</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥158.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 01:03</td>
+                            <td>K20</td>
+                            <td>王</td>
+                            <td>19533601618.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥34.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 01:12</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥136.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 02:03</td>
+                            <td>K20</td>
+                            <td>王</td>
+                            <td>19533601618.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 02:27</td>
+                            <td>K15</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥38.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:00</td>
+                            <td>K15</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:01</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:03</td>
+                            <td>K02</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥90.67</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:11</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:20</td>
+                            <td>K12</td>
+                            <td>孙</td>
+                            <td>15001063344.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥105.89</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:47</td>
+                            <td>K05</td>
+                            <td>186****6021</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:54</td>
+                            <td>K06</td>
+                            <td>157****7172</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 01:00</td>
+                            <td>K07</td>
+                            <td>155****7920</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥158.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 01:10</td>
+                            <td>K09</td>
+                            <td>赵</td>
+                            <td>18846754317.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥32.26</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 02:01</td>
+                            <td>K02</td>
+                            <td>高</td>
+                            <td>18846089957.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥26.97</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 00:03</td>
+                            <td>K02</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 00:07</td>
+                            <td>K19</td>
+                            <td>1</td>
+                            <td>18104672888.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥128.07</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 00:22</td>
+                            <td>K22</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 01:15</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 01:25</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 01:57</td>
+                            <td>K16</td>
+                            <td>王</td>
+                            <td>13136969777.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥57.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 00:21</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 00:33</td>
+                            <td>K02</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 00:36</td>
+                            <td>K19</td>
+                            <td>王炜民</td>
+                            <td>18518484465.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 00:56</td>
+                            <td>K16</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥38.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 01:11</td>
+                            <td>K01</td>
+                            <td>张</td>
+                            <td>18045715553.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 01:34</td>
+                            <td>K18</td>
+                            <td>130****0039</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 01:43</td>
+                            <td>K17</td>
+                            <td>152****9655</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥78.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:41</td>
+                            <td>K05</td>
+                            <td>1</td>
+                            <td>13224677722.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥189.93</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:44</td>
+                            <td>K15</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:46</td>
+                            <td>K16</td>
+                            <td>133****8121</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:05</td>
+                            <td>K19</td>
+                            <td>130****7058</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:09</td>
+                            <td>777</td>
+                            <td>李</td>
+                            <td>13804886868.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥75.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:23</td>
+                            <td>K02</td>
+                            <td>183****1339</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:54</td>
+                            <td>K17</td>
+                            <td>166****1349</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:07</td>
+                            <td>K02</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:09</td>
+                            <td>K19</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:16</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:18</td>
+                            <td>K07</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:21</td>
+                            <td>K08</td>
+                            <td>高</td>
+                            <td>13846098102.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:23</td>
+                            <td>K10</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:24</td>
+                            <td>K37</td>
+                            <td>李</td>
+                            <td>15146778658.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:26</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:32</td>
+                            <td>K15</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:45</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:47</td>
+                            <td>K12</td>
+                            <td>182****3851</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:55</td>
+                            <td>K16</td>
+                            <td>139****3527</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 01:11</td>
+                            <td>K05</td>
+                            <td>136****3661</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 01:17</td>
+                            <td>777</td>
+                            <td>王</td>
+                            <td>15146718123.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥150.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 02:07</td>
+                            <td>K06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 02:10</td>
+                            <td>K03</td>
+                            <td>栾</td>
+                            <td>18403803456.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 02:17</td>
+                            <td>K08</td>
+                            <td>176****9666</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 02:40</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 02:52</td>
+                            <td>K09</td>
+                            <td>188****3879</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 00:22</td>
+                            <td>K15</td>
+                            <td>138****4246</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 01:12</td>
+                            <td>K16</td>
+                            <td>韩</td>
+                            <td>18714597884.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥33.21</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 01:16</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 01:18</td>
+                            <td>K18</td>
+                            <td>191****2860</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 02:41</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 00:26</td>
+                            <td>K18</td>
+                            <td>马</td>
+                            <td>18944676655.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥121.27</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 00:35</td>
+                            <td>K19</td>
+                            <td>刘</td>
+                            <td>18846718258.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥34.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 00:38</td>
+                            <td>K03</td>
+                            <td>188****9112</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 00:55</td>
+                            <td>999</td>
+                            <td>凯伦</td>
+                            <td>15555855524.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥138.83</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 01:57</td>
+                            <td>K19</td>
+                            <td>188****5968</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 02:17</td>
+                            <td>K15</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥141.24</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:00</td>
+                            <td>K15</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:06</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥158.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:10</td>
+                            <td>K16</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥158.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:13</td>
+                            <td>K至尊VIP</td>
+                            <td>王炜民</td>
+                            <td>18518484465.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:31</td>
+                            <td>K06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:39</td>
+                            <td>K07</td>
+                            <td>王</td>
+                            <td>13763643592.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 01:00</td>
+                            <td>666</td>
+                            <td>赵先生</td>
+                            <td>18945155557.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 01:04</td>
+                            <td>666</td>
+                            <td>赵先生</td>
+                            <td>18945155557.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 01:17</td>
+                            <td>K18</td>
+                            <td>139****6919</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥158.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 02:02</td>
+                            <td>K09</td>
+                            <td>157****9932</td>
+                            <td>15799169932.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="鸡西店-second" class="order-table-container" style="display:none">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>开房时间</th><th>包厢号</th><th>开房人</th><th>手机号</th><th>是否会员</th><th>实收金额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>2026-04-16 00:08</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥290.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 00:15</td>
+                            <td>K18</td>
+                            <td>198****4524</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 00:47</td>
+                            <td>K19</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥136.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 01:13</td>
+                            <td>K35</td>
+                            <td>杨</td>
+                            <td>18261892605.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥33.44</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 01:42</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 02:47</td>
+                            <td>K19</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 02:57</td>
+                            <td>K17</td>
+                            <td>187****4168</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 00:25</td>
+                            <td>K19</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥78.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 00:37</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥110.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 00:55</td>
+                            <td>K05</td>
+                            <td>157****7258</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥138.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 01:46</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 01:55</td>
+                            <td>K15</td>
+                            <td>刘</td>
+                            <td>18846718258.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥38.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 02:05</td>
+                            <td>K02</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:01</td>
+                            <td>K05</td>
+                            <td>178****8851</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:03</td>
+                            <td>999</td>
+                            <td>韩凤</td>
+                            <td>13504861000.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:17</td>
+                            <td>K06</td>
+                            <td>180****0417</td>
+                            <td>18045740417.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:23</td>
+                            <td>K01</td>
+                            <td>王淳</td>
+                            <td>15701236234.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:40</td>
+                            <td>K33</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:42</td>
+                            <td>555</td>
+                            <td>***</td>
+                            <td>13946893987.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:43</td>
+                            <td>K22</td>
+                            <td>莉莉</td>
+                            <td>13359966076.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:45</td>
+                            <td>555</td>
+                            <td>***</td>
+                            <td>13946893987.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 01:12</td>
+                            <td>K15</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥138.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 01:19</td>
+                            <td>K17</td>
+                            <td>198****4035</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 01:42</td>
+                            <td>K16</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥38.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 02:10</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥136.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 03:02</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥138.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:00</td>
+                            <td>K02</td>
+                            <td>153****0450</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:02</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:03</td>
+                            <td>K08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:12</td>
+                            <td>K09</td>
+                            <td>157****1143</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:16</td>
+                            <td>K10</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:20</td>
+                            <td>K12</td>
+                            <td>189****7488</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:42</td>
+                            <td>K15</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:54</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 01:00</td>
+                            <td>K30</td>
+                            <td>朱</td>
+                            <td>18403807777.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥44.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 01:11</td>
+                            <td>K23</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥44.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 01:17</td>
+                            <td>K06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 01:20</td>
+                            <td>K11</td>
+                            <td>156****3029</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 01:27</td>
+                            <td>K19</td>
+                            <td>冯</td>
+                            <td>18645440822.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥52.97</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 02:02</td>
+                            <td>K17</td>
+                            <td>159****3992</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 02:05</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 02:50</td>
+                            <td>K12</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 00:11</td>
+                            <td>K02</td>
+                            <td>178****7550</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 01:22</td>
+                            <td>K15</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥76.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 01:26</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 01:59</td>
+                            <td>K18</td>
+                            <td>张</td>
+                            <td>18045715553.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 02:06</td>
+                            <td>K19</td>
+                            <td>栾</td>
+                            <td>18403803456.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥132.60</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 02:22</td>
+                            <td>K03</td>
+                            <td>139****7389</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 02:26</td>
+                            <td>K16</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥78.54</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:12</td>
+                            <td>K19</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:16</td>
+                            <td>K06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:19</td>
+                            <td>K12</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:23</td>
+                            <td>K01</td>
+                            <td>176****2345</td>
+                            <td>17681752345.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:26</td>
+                            <td>777</td>
+                            <td>孙志远</td>
+                            <td>13766694888.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 01:11</td>
+                            <td>K16</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 01:32</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥138.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 02:16</td>
+                            <td>K17</td>
+                            <td>130****0538</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥138.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-23 00:11</td>
+                            <td>K16</td>
+                            <td>132****7654</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥138.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-23 00:47</td>
+                            <td>K至尊VIP</td>
+                            <td>高宇</td>
+                            <td>18945137666.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:01</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:03</td>
+                            <td>K12</td>
+                            <td>nan</td>
+                            <td>18646706021.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:10</td>
+                            <td>K07</td>
+                            <td>159****6238</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:21</td>
+                            <td>K16</td>
+                            <td>135****4738</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:29</td>
+                            <td>K08</td>
+                            <td>宋</td>
+                            <td>15699971110.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:35</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 01:30</td>
+                            <td>K15</td>
+                            <td>182****3482</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥138.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 02:37</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:12</td>
+                            <td>K15</td>
+                            <td>李成志</td>
+                            <td>17604677887.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥14.44</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:45</td>
+                            <td>K02</td>
+                            <td>157****8075</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 01:25</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥176.00</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="store-section">
+            <h2>🎯 安达店</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="label">上半月订单数</div>
+                    <div class="value">87</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">下半月订单数</div>
+                    <div class="value">55</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">上半月0元订单</div>
+                    <div class="value highlight">8</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">下半月0元订单</div>
+                    <div class="value highlight">4</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">上半月金额</div>
+                    <div class="value">¥6045</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">下半月金额</div>
+                    <div class="value">¥4341</div>
+                </div>
+            </div>
+            <div class="half-tabs">
+                <button class="half-tab active" onclick="showHalf('安达店', 'first')">上半月（4.1-4.15）</button>
+                <button class="half-tab" onclick="showHalf('安达店', 'second')">下半月（4.16-4.30）</button>
+            </div>
+            <div id="安达店-first" class="order-table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>开房时间</th><th>包厢号</th><th>开房人</th><th>手机号</th><th>是否会员</th><th>实收金额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>2026-04-01 00:23</td>
+                            <td>K09</td>
+                            <td>185****1517</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 00:54</td>
+                            <td>K08</td>
+                            <td>鲁冰</td>
+                            <td>15636000419.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥114.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 01:36</td>
+                            <td>K01</td>
+                            <td>张继雪</td>
+                            <td>13734562412.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥84.10</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 01:59</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 02:19</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 00:01</td>
+                            <td>K10</td>
+                            <td>曹雪</td>
+                            <td>15146350567.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥7.33</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 00:05</td>
+                            <td>K09</td>
+                            <td>程明</td>
+                            <td>18245790321.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥100.32</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 01:47</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 00:00</td>
+                            <td>K13</td>
+                            <td>138****2248</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 00:04</td>
+                            <td>K17</td>
+                            <td>刘</td>
+                            <td>13329398777.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 00:23</td>
+                            <td>V08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥98.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 00:40</td>
+                            <td>111</td>
+                            <td>邓</td>
+                            <td>15004592323.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 00:48</td>
+                            <td>K08</td>
+                            <td>王</td>
+                            <td>15845832674.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥52.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 01:43</td>
+                            <td>K12</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:04</td>
+                            <td>K09</td>
+                            <td>151****7272</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥98.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:06</td>
+                            <td>K15</td>
+                            <td>唐皓</td>
+                            <td>18845727271.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥107.07</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:09</td>
+                            <td>V07</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:18</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:30</td>
+                            <td>K08</td>
+                            <td>张丽丽</td>
+                            <td>13555524542.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥90.20</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:38</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥176.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:49</td>
+                            <td>K06</td>
+                            <td>150****1195</td>
+                            <td>15045911195.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 01:19</td>
+                            <td>K07</td>
+                            <td>186****7247</td>
+                            <td>18645227247.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥59.84</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:20</td>
+                            <td>V07</td>
+                            <td>176****6360</td>
+                            <td>17603666360.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:24</td>
+                            <td>K08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥128.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:40</td>
+                            <td>K10</td>
+                            <td>艾</td>
+                            <td>13304891989.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥42.24</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:44</td>
+                            <td>K17</td>
+                            <td>m</td>
+                            <td>15774701288.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 01:01</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 01:31</td>
+                            <td>K06</td>
+                            <td>188****6758</td>
+                            <td>18846796758.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥83.04</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 00:05</td>
+                            <td>K09</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 00:17</td>
+                            <td>K08</td>
+                            <td>刘苗</td>
+                            <td>15046885659.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥163.53</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 00:25</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 00:42</td>
+                            <td>V08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥128.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 01:00</td>
+                            <td>111</td>
+                            <td>兰娟</td>
+                            <td>13039874442.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.90</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 01:03</td>
+                            <td>K11</td>
+                            <td>157****5666</td>
+                            <td>15765905666.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥2.66</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 01:12</td>
+                            <td>K10</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥176.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 01:28</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥39.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 02:58</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥38.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:02</td>
+                            <td>V07</td>
+                            <td>张继雪</td>
+                            <td>13734562412.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥118.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:27</td>
+                            <td>K16</td>
+                            <td>张</td>
+                            <td>13206849966.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥16.72</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:32</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:32</td>
+                            <td>K05</td>
+                            <td>曹嘉川</td>
+                            <td>13359814447.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:35</td>
+                            <td>K10</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:50</td>
+                            <td>K07</td>
+                            <td>无</td>
+                            <td>15918462956.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥49.27</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 01:05</td>
+                            <td>K11</td>
+                            <td>182****0575</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 01:46</td>
+                            <td>K07</td>
+                            <td>无</td>
+                            <td>15918462956.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥16.73</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 00:07</td>
+                            <td>K08</td>
+                            <td>130****6026</td>
+                            <td>13089006026.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 00:22</td>
+                            <td>K03</td>
+                            <td>徐双</td>
+                            <td>13555504322.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥42.91</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 00:35</td>
+                            <td>K15</td>
+                            <td>182****3697</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 00:37</td>
+                            <td>V07</td>
+                            <td>182****9297</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 01:15</td>
+                            <td>V08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥77.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 00:01</td>
+                            <td>K07</td>
+                            <td>138****7998</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 00:08</td>
+                            <td>K11</td>
+                            <td>刘畅</td>
+                            <td>13734558966.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥27.67</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 00:20</td>
+                            <td>K10</td>
+                            <td>152****6298</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 00:29</td>
+                            <td>K03</td>
+                            <td>152****6298</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥288.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 00:59</td>
+                            <td>V08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥140.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 01:24</td>
+                            <td>K06</td>
+                            <td>132****6228</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 01:33</td>
+                            <td>K08</td>
+                            <td>186****6345</td>
+                            <td>18645926345.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥47.67</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 01:43</td>
+                            <td>V07</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 01:45</td>
+                            <td>K12</td>
+                            <td>192****4801</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 02:35</td>
+                            <td>V08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥1.47</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 00:04</td>
+                            <td>111</td>
+                            <td>曹</td>
+                            <td>15045939333.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥23.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 00:10</td>
+                            <td>K07</td>
+                            <td>188****4021</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 00:17</td>
+                            <td>111</td>
+                            <td>曹</td>
+                            <td>15045939333.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥14.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 00:20</td>
+                            <td>K10</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥183.34</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 01:25</td>
+                            <td>K03</td>
+                            <td>150****2577</td>
+                            <td>15045912577.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥52.94</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:29</td>
+                            <td>K09</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥44.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:39</td>
+                            <td>K10</td>
+                            <td>房毅</td>
+                            <td>19969765666.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥66.32</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:49</td>
+                            <td>K07</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:11</td>
+                            <td>K03</td>
+                            <td>杨泽</td>
+                            <td>15776106666.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥1.76</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:30</td>
+                            <td>K08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:39</td>
+                            <td>888</td>
+                            <td>范磊</td>
+                            <td>13351998639.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:03</td>
+                            <td>K08</td>
+                            <td>152****6298</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:06</td>
+                            <td>V08</td>
+                            <td>付姐</td>
+                            <td>18045922609.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥145.20</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:08</td>
+                            <td>K12</td>
+                            <td>唐姐</td>
+                            <td>13945958947.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥120.56</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:08</td>
+                            <td>K10</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥98.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:19</td>
+                            <td>K19</td>
+                            <td>138****2331</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥288.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 01:30</td>
+                            <td>K22</td>
+                            <td>guo</td>
+                            <td>18249613444.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥28.50</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 02:09</td>
+                            <td>K06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 02:10</td>
+                            <td>K02</td>
+                            <td>戚</td>
+                            <td>13590347990.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥4.84</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 00:29</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 01:16</td>
+                            <td>K06</td>
+                            <td>王绘</td>
+                            <td>13206841114.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 01:31</td>
+                            <td>K08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 01:43</td>
+                            <td>K09</td>
+                            <td>田</td>
+                            <td>15246128231.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥66.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 01:58</td>
+                            <td>K10</td>
+                            <td>152****6298</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:22</td>
+                            <td>K06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:28</td>
+                            <td>K07</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:53</td>
+                            <td>K10</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="安达店-second" class="order-table-container" style="display:none">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>开房时间</th><th>包厢号</th><th>开房人</th><th>手机号</th><th>是否会员</th><th>实收金额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>2026-04-16 00:03</td>
+                            <td>K06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 00:05</td>
+                            <td>K10</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥39.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 00:07</td>
+                            <td>K09</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥128.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 00:33</td>
+                            <td>K07</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 00:40</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 01:25</td>
+                            <td>K08</td>
+                            <td>152****1513</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 00:37</td>
+                            <td>K11</td>
+                            <td>183****2130</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 02:24</td>
+                            <td>K07</td>
+                            <td>131****6256</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥288.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 02:30</td>
+                            <td>K09</td>
+                            <td>131****5746</td>
+                            <td>13163595746.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:04</td>
+                            <td>K05</td>
+                            <td>li</td>
+                            <td>15846922666.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥101.93</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:10</td>
+                            <td>V07</td>
+                            <td>张成思</td>
+                            <td>18182735552.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥46.81</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:15</td>
+                            <td>K15</td>
+                            <td>无</td>
+                            <td>18346672777.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥101.93</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:23</td>
+                            <td>K19</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥288.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:35</td>
+                            <td>V08</td>
+                            <td>139****9096</td>
+                            <td>13945999096.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥33.44</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:52</td>
+                            <td>K06</td>
+                            <td>152****6298</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥288.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 02:00</td>
+                            <td>K08</td>
+                            <td>张</td>
+                            <td>18746667272.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥47.37</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:29</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:32</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥115.87</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:35</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:43</td>
+                            <td>K07</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 01:03</td>
+                            <td>K10</td>
+                            <td>金</td>
+                            <td>15045991116.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥129.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 01:30</td>
+                            <td>K09</td>
+                            <td>张添</td>
+                            <td>15246125225.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥66.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 02:09</td>
+                            <td>V07</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥176.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 02:15</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 02:53</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 02:55</td>
+                            <td>V06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥177.07</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 00:01</td>
+                            <td>K08</td>
+                            <td>151****4073</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 00:23</td>
+                            <td>K16</td>
+                            <td>哥</td>
+                            <td>15765751444.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥52.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 00:32</td>
+                            <td>V08</td>
+                            <td>157****7340</td>
+                            <td>15711037340.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥64.65</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 01:28</td>
+                            <td>V07</td>
+                            <td>张静</td>
+                            <td>13936922227.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥33.44</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:15</td>
+                            <td>V07</td>
+                            <td>133****3296</td>
+                            <td>13351093296.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥85.36</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:47</td>
+                            <td>K22</td>
+                            <td>张成思</td>
+                            <td>18182735552.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥1.68</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:50</td>
+                            <td>K22</td>
+                            <td>张成思</td>
+                            <td>18182735552.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥42.11</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-23 00:03</td>
+                            <td>K08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥98.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-23 00:16</td>
+                            <td>K10</td>
+                            <td>杨</td>
+                            <td>15311130234.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-23 00:38</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-23 01:13</td>
+                            <td>K09</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥18.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:01</td>
+                            <td>V07</td>
+                            <td>185****0080</td>
+                            <td>18545730080.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥126.72</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:03</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥59.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:10</td>
+                            <td>111</td>
+                            <td>无</td>
+                            <td>15246191994.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥1.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:18</td>
+                            <td>K08</td>
+                            <td>张雄伟</td>
+                            <td>13936757729.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥93.28</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:28</td>
+                            <td>K20</td>
+                            <td>182****7791</td>
+                            <td>18245777791.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:48</td>
+                            <td>V08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:56</td>
+                            <td>K06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥128.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:58</td>
+                            <td>K10</td>
+                            <td>188****6758</td>
+                            <td>18846796758.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥57.96</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 01:05</td>
+                            <td>K07</td>
+                            <td>赵</td>
+                            <td>13351690791.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥128.33</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 01:30</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 01:31</td>
+                            <td>V05</td>
+                            <td>150****2113</td>
+                            <td>15046892113.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥8.05</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 01:45</td>
+                            <td>K09</td>
+                            <td>189****0280</td>
+                            <td>18944570280.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥66.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:16</td>
+                            <td>V08</td>
+                            <td>156****7770</td>
+                            <td>15600077770.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:25</td>
+                            <td>K06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥39.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:29</td>
+                            <td>V07</td>
+                            <td>王艳雨</td>
+                            <td>15904592777.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 01:29</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.74</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 01:34</td>
+                            <td>K08</td>
+                            <td>189****3172</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 01:52</td>
+                            <td>K12</td>
+                            <td>156****7698</td>
+                            <td>15634327698.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥59.84</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="store-section">
+            <h2>🎯 通化店</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="label">上半月订单数</div>
+                    <div class="value">106</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">下半月订单数</div>
+                    <div class="value">57</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">上半月0元订单</div>
+                    <div class="value highlight">8</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">下半月0元订单</div>
+                    <div class="value highlight">6</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">上半月金额</div>
+                    <div class="value">¥7005</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">下半月金额</div>
+                    <div class="value">¥3655</div>
+                </div>
+            </div>
+            <div class="half-tabs">
+                <button class="half-tab active" onclick="showHalf('通化店', 'first')">上半月（4.1-4.15）</button>
+                <button class="half-tab" onclick="showHalf('通化店', 'second')">下半月（4.16-4.30）</button>
+            </div>
+            <div id="通化店-first" class="order-table-container">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>开房时间</th><th>包厢号</th><th>开房人</th><th>手机号</th><th>是否会员</th><th>实收金额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>2026-04-01 00:00</td>
+                            <td>K06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥44.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 00:09</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 00:59</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>17643556219.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.20</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 01:42</td>
+                            <td>K17</td>
+                            <td>于</td>
+                            <td>15204381126.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥71.34</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 02:14</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-01 02:31</td>
+                            <td>K39</td>
+                            <td>131****9900</td>
+                            <td>13125759900.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 00:01</td>
+                            <td>K17</td>
+                            <td>187****8888</td>
+                            <td>18743568888.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥121.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 00:09</td>
+                            <td>K19</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 00:27</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 00:41</td>
+                            <td>K09</td>
+                            <td>151****9755</td>
+                            <td>15114399755.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 03:22</td>
+                            <td>K30</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-02 03:23</td>
+                            <td>K30</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 00:08</td>
+                            <td>K11</td>
+                            <td>刘</td>
+                            <td>15004352190.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥80.02</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 00:42</td>
+                            <td>K51</td>
+                            <td>，</td>
+                            <td>18343559565.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥76.50</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-03 02:11</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:01</td>
+                            <td>K51</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥64.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:01</td>
+                            <td>K37</td>
+                            <td>李</td>
+                            <td>15354651109.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:07</td>
+                            <td>K53</td>
+                            <td>张</td>
+                            <td>13089199977.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥30.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:20</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>13134352082.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 00:24</td>
+                            <td>K50</td>
+                            <td>185****5595</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 01:00</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥44.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 01:26</td>
+                            <td>K18</td>
+                            <td>周宇豪</td>
+                            <td>15526607111.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥19.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 01:33</td>
+                            <td>K11</td>
+                            <td>许先生</td>
+                            <td>13766194789.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥0.88</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 01:36</td>
+                            <td>K11</td>
+                            <td>许先生</td>
+                            <td>13766194789.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥34.92</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-04 01:41</td>
+                            <td>K39</td>
+                            <td>孙先生</td>
+                            <td>17504356699.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:55</td>
+                            <td>K11</td>
+                            <td>132****7226</td>
+                            <td>13210367226.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥66.60</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 00:57</td>
+                            <td>K52</td>
+                            <td>王哥</td>
+                            <td>15643532055.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥38.16</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 01:15</td>
+                            <td>K13</td>
+                            <td>丁姐</td>
+                            <td>18626540095.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 01:33</td>
+                            <td>K51</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥9.90</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-05 02:38</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥26.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 00:16</td>
+                            <td>K50</td>
+                            <td>王</td>
+                            <td>13341567206.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥120.96</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 00:29</td>
+                            <td>K18</td>
+                            <td>133****2234</td>
+                            <td>13384352234.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥28.88</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 01:00</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥64.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 01:03</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 01:20</td>
+                            <td>K51</td>
+                            <td>188****3789</td>
+                            <td>18804353789.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥172.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 01:34</td>
+                            <td>K52</td>
+                            <td>195****5209</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-06 02:33</td>
+                            <td>K39</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:29</td>
+                            <td>K52</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 00:32</td>
+                            <td>K51</td>
+                            <td>11</td>
+                            <td>18684355939.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 01:05</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 02:15</td>
+                            <td>K13</td>
+                            <td>131****5575</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-07 03:32</td>
+                            <td>K51</td>
+                            <td>11</td>
+                            <td>18684355939.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 01:19</td>
+                            <td>K51</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 01:25</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>15354652025.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 02:07</td>
+                            <td>K52</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥0.57</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-08 02:10</td>
+                            <td>K52</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥32.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 00:09</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 00:31</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥65.57</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-09 00:33</td>
+                            <td>K39</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 00:22</td>
+                            <td>K18</td>
+                            <td>166****8357</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 00:26</td>
+                            <td>K51</td>
+                            <td>166****1999</td>
+                            <td>16624351999.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥91.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-10 01:20</td>
+                            <td>K52</td>
+                            <td>138****6349</td>
+                            <td>13840216349.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:01</td>
+                            <td>K11</td>
+                            <td>周先生</td>
+                            <td>15567807999.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.75</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:01</td>
+                            <td>K19</td>
+                            <td>nan</td>
+                            <td>13331414825.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:05</td>
+                            <td>K05</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥63.84</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:19</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:45</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:47</td>
+                            <td>K18</td>
+                            <td>壮哥</td>
+                            <td>13278250333.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥51.62</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 00:56</td>
+                            <td>K52</td>
+                            <td>。</td>
+                            <td>13732867777.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥69.30</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:05</td>
+                            <td>K50</td>
+                            <td>王</td>
+                            <td>13894119517.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:09</td>
+                            <td>K39</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:20</td>
+                            <td>K37</td>
+                            <td>152****8488</td>
+                            <td>15248508488.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:23</td>
+                            <td>K20</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 01:45</td>
+                            <td>K22</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 02:01</td>
+                            <td>K19</td>
+                            <td>nan</td>
+                            <td>13331414825.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥8.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 02:17</td>
+                            <td>K52</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 02:19</td>
+                            <td>K17</td>
+                            <td>175****0137</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 03:22</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-11 04:25</td>
+                            <td>K38</td>
+                            <td>152****8095</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥32.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:04</td>
+                            <td>K08</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥173.60</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:14</td>
+                            <td>K17</td>
+                            <td>li</td>
+                            <td>18243633917.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥107.07</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:21</td>
+                            <td>K19</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥160.60</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:23</td>
+                            <td>K39</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:33</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:55</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥38.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:55</td>
+                            <td>K37</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 00:56</td>
+                            <td>K52</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 01:05</td>
+                            <td>K20</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥3.60</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 01:09</td>
+                            <td>K20</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥68.20</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 01:09</td>
+                            <td>K51</td>
+                            <td>李</td>
+                            <td>13029191213.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 01:14</td>
+                            <td>K06</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥0.64</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 01:25</td>
+                            <td>K22</td>
+                            <td>nan</td>
+                            <td>18626563022.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 01:28</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 01:33</td>
+                            <td>K02</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥26.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 02:03</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-12 02:17</td>
+                            <td>K52</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 00:05</td>
+                            <td>K18</td>
+                            <td>136****1644</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 00:07</td>
+                            <td>K22</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 00:16</td>
+                            <td>K37</td>
+                            <td>谢</td>
+                            <td>18643540777.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 00:27</td>
+                            <td>K38</td>
+                            <td>133****1112</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 01:14</td>
+                            <td>K20</td>
+                            <td>180****9871</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 01:24</td>
+                            <td>K51</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-13 02:22</td>
+                            <td>K52</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 00:00</td>
+                            <td>K03</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 00:10</td>
+                            <td>K17</td>
+                            <td>187****0185</td>
+                            <td>18704350185.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 01:25</td>
+                            <td>K52</td>
+                            <td>nan</td>
+                            <td>15143529869.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-14 01:26</td>
+                            <td>K13</td>
+                            <td>孙哥</td>
+                            <td>13904451378.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:26</td>
+                            <td>K18</td>
+                            <td>185****6866</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:30</td>
+                            <td>K20</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 00:57</td>
+                            <td>K39</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 01:00</td>
+                            <td>K38</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥33.48</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 01:03</td>
+                            <td>K50</td>
+                            <td>李哥</td>
+                            <td>15043555210.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 01:06</td>
+                            <td>K17</td>
+                            <td>133****7919</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 01:18</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 01:22</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-15 01:54</td>
+                            <td>K19</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥44.00</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="通化店-second" class="order-table-container" style="display:none">
+                <table class="orders-table">
+                    <thead>
+                        <tr>
+                            <th>开房时间</th><th>包厢号</th><th>开房人</th><th>手机号</th><th>是否会员</th><th>实收金额</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>2026-04-16 00:20</td>
+                            <td>K52</td>
+                            <td>冯</td>
+                            <td>15004351818.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 01:07</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 01:45</td>
+                            <td>K13</td>
+                            <td>崔</td>
+                            <td>13940912616.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥25.22</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-16 02:55</td>
+                            <td>K29</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 00:09</td>
+                            <td>K38</td>
+                            <td>楚</td>
+                            <td>18243510061.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 00:17</td>
+                            <td>K11</td>
+                            <td>155****2868</td>
+                            <td>15504352868.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 01:20</td>
+                            <td>K51</td>
+                            <td>133****6510</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-17 01:53</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:15</td>
+                            <td>K39</td>
+                            <td>151****8920</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:55</td>
+                            <td>666</td>
+                            <td>李先生</td>
+                            <td>15500310999.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥3.20</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 00:58</td>
+                            <td>666</td>
+                            <td>李先生</td>
+                            <td>15500310999.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥82.83</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 01:01</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>13500959977.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥40.13</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 01:02</td>
+                            <td>K13</td>
+                            <td>176****2526</td>
+                            <td>17643592526.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-18 01:34</td>
+                            <td>K38</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:11</td>
+                            <td>K52</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥88.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:14</td>
+                            <td>K50</td>
+                            <td>133****4851</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:15</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥76.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:17</td>
+                            <td>K22</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:18</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:21</td>
+                            <td>K52</td>
+                            <td>135****2167</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:27</td>
+                            <td>K21</td>
+                            <td>155****0682</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:46</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥30.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:47</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:53</td>
+                            <td>K38</td>
+                            <td>张</td>
+                            <td>13624444033.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 00:54</td>
+                            <td>K13</td>
+                            <td>151****2558</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 02:36</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥75.60</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-19 02:41</td>
+                            <td>K39</td>
+                            <td>胡先生</td>
+                            <td>13310396797.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥71.10</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 00:23</td>
+                            <td>K13</td>
+                            <td>159****9603</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 01:06</td>
+                            <td>K52</td>
+                            <td>131****4399</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-20 01:36</td>
+                            <td>K11</td>
+                            <td>130****0416</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:03</td>
+                            <td>K09</td>
+                            <td>139****2598</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥32.40</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:20</td>
+                            <td>K11</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:31</td>
+                            <td>K39</td>
+                            <td>136****8855</td>
+                            <td>13634358855.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 00:55</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥76.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 01:00</td>
+                            <td>K38</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 01:03</td>
+                            <td>K51</td>
+                            <td>常</td>
+                            <td>15500306222.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-21 01:29</td>
+                            <td>K52</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥135.90</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-23 00:02</td>
+                            <td>K51</td>
+                            <td>133****4569</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:01</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥42.75</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:03</td>
+                            <td>K38</td>
+                            <td>李</td>
+                            <td>15943588501.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥44.28</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:10</td>
+                            <td>K13</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥52.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 00:17</td>
+                            <td>K51</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.48</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 01:08</td>
+                            <td>K11</td>
+                            <td>新8刘</td>
+                            <td>13069279999.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥51.30</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 01:24</td>
+                            <td>K50</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥38.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 01:28</td>
+                            <td>K17</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥44.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 01:57</td>
+                            <td>K38</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥54.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 02:30</td>
+                            <td>K52</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-25 02:35</td>
+                            <td>K51</td>
+                            <td>130****1136</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:02</td>
+                            <td>K18</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:13</td>
+                            <td>K52</td>
+                            <td>130****1990</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥108.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:15</td>
+                            <td>K50</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥188.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:17</td>
+                            <td>K37</td>
+                            <td>nan</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:21</td>
+                            <td>K11</td>
+                            <td>157****8108</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:22</td>
+                            <td>K21</td>
+                            <td>张</td>
+                            <td>15044509900.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td class="zero-amount">¥0.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:29</td>
+                            <td>K18</td>
+                            <td>130****7260</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥58.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 00:44</td>
+                            <td>K22</td>
+                            <td>138****3111</td>
+                            <td>13844543111.0</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥99.00</td>
+                        </tr>
+
+                        <tr>
+                            <td>2026-04-26 01:27</td>
+                            <td>K38</td>
+                            <td>130****1772</td>
+                            <td>nan</td>
+                            <td><span class="member-badge">会员</span></td>
+                            <td>¥15.80</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script>
+            function showHalf(store, half) {
+                // 更新按钮样式
+                const container = event.target.closest('.store-section');
+                container.querySelectorAll('.half-tab').forEach(tab => tab.classList.remove('active'));
+                event.target.classList.add('active');
+                
+                // 切换表格显示
+                document.getElementById(store + '-first').style.display = 'none';
+                document.getElementById(store + '-second').style.display = 'none';
+                document.getElementById(store + '-' + half).style.display = 'block';
+            }
+            
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { labels: { color: '#ffffff' } }
+                },
+                scales: {
+                    x: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255,255,255,0.1)' } },
+                    y: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255,255,255,0.1)' } }
+                }
+            };
+            
+            new Chart(document.getElementById('ordersChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['鸡西店', '安达店', '通化店'],
+                    datasets: [
+                        {
+                            label: '上半月',
+                            data: [110, 87, 106],
+                            backgroundColor: 'rgba(0,212,255,0.7)',
+                            borderColor: '#00d4ff',
+                            borderWidth: 2
+                        },
+                        {
+                            label: '下半月',
+                            data: [70, 55, 57],
+                            backgroundColor: 'rgba(123,44,191,0.7)',
+                            borderColor: '#7b2cbf',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: chartOptions
+            });
+            
+            new Chart(document.getElementById('amountChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['鸡西店', '安达店', '通化店'],
+                    datasets: [
+                        {
+                            label: '上半月',
+                            data: [7689, 6044, 7005],
+                            backgroundColor: 'rgba(74,222,128,0.7)',
+                            borderColor: '#4ade80',
+                            borderWidth: 2
+                        },
+                        {
+                            label: '下半月',
+                            data: [4649, 4341, 3655],
+                            backgroundColor: 'rgba(251,146,60,0.7)',
+                            borderColor: '#fb923c',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: chartOptions
+            });
+        </script>
+    </div>
+</body>
+</html>

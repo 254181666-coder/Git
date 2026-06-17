@@ -1,0 +1,780 @@
+
+    <!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>备品统计-包含6月1-5日待客量与使用占比</title>
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { 
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                background: #f5f7fa;
+                padding: 20px;
+                line-height: 1.6;
+            }
+            .container { max-width: 1800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+            h1 { color: #333; margin-bottom: 20px; text-align: center; }
+            table { 
+                width: 100%; 
+                border-collapse: collapse; 
+                margin-top: 20px;
+                font-size: 13px;
+            }
+            th, td { 
+                border: 1px solid #e0e0e0; 
+                padding: 12px 8px; 
+                text-align: center;
+            }
+            th { 
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                color: white;
+                font-weight: 600;
+                position: sticky;
+                top: 0;
+            }
+            tr:nth-child(even) { background: #f9f9f9; }
+            tr:hover { background: #eef5ff; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>备品统计分析（6月1日-6月5日）</h1>
+            <p style="text-align:center;margin-bottom:20px;color:#666;">以通辽为标准，低于通辽使用量70%的商品为不合格</p>
+            <table>
+                <tr><th>商品名称</th><th>单位</th><th>晨宇出库</th><th>晨宇6月1-5日待客量</th><th>晨宇每客消耗</th><th>上东出库</th><th>上东6月1-5日待客量</th><th>上东每客消耗</th><th>榆树出库</th><th>榆树6月1-5日待客量</th><th>榆树每客消耗</th><th>松原一出库</th><th>松原一6月1-5日待客量</th><th>松原一每客消耗</th><th>松原二出库</th><th>松原二6月1-5日待客量</th><th>松原二每客消耗</th><th>通化出库</th><th>通化6月1-5日待客量</th><th>通化每客消耗</th><th>鸡西出库</th><th>鸡西6月1-5日待客量</th><th>鸡西每客消耗</th><th>佳木斯出库</th><th>佳木斯6月1-5日待客量</th><th>佳木斯每客消耗</th><th>安达出库</th><th>安达6月1-5日待客量</th><th>安达每客消耗</th><th>通辽出库</th><th>通辽6月1-5日待客量</th><th>通辽每客消耗</th><th>红旗街出库</th><th>红旗街6月1-5日待客量</th><th>红旗街每客消耗</th><th>法库出库</th><th>法库6月1-5日待客量</th><th>法库每客消耗</th></tr><tr><td>毛巾卷260g*15m</td><td>卷</td><td>6</td><td>691</td><td>0.87%</td><td>3</td><td>1002</td><td>0.30%</td><td>0</td><td>605</td><td>0.00%</td><td>0</td><td>687</td><td>0.00%</td><td>2</td><td>348</td><td>0.57%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>0</td><td>482</td><td>0.00%</td><td>50</td><td>345</td><td>14.49%</td><td>24</td><td>722</td><td>3.32%</td><td>4</td><td>866</td><td>0.46%</td><td>0</td><td>258</td><td>0.00%</td></tr><tr><td>厕纸100G/卷（大卷）</td><td>卷</td><td>0</td><td>691</td><td>0.00%</td><td>300</td><td>1002</td><td>29.94%</td><td>200</td><td>605</td><td>33.06%</td><td>170</td><td>687</td><td>24.75%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>100</td><td>482</td><td>20.75%</td><td>70</td><td>345</td><td>20.29%</td><td>200</td><td>722</td><td>27.70%</td><td>200</td><td>866</td><td>23.09%</td><td>200</td><td>258</td><td>77.52%</td></tr><tr><td>一次性马桶垫独立包装（无纺布）</td><td>个</td><td>150</td><td>691</td><td>21.71%</td><td>0</td><td>1002</td><td>0.00%</td><td>0</td><td>605</td><td>0.00%</td><td>0</td><td>687</td><td>0.00%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>0</td><td>482</td><td>0.00%</td><td>0</td><td>345</td><td>0.00%</td><td>250</td><td>722</td><td>34.63%</td><td>200</td><td>866</td><td>23.09%</td><td>0</td><td>258</td><td>0.00%</td></tr><tr><td>一次性马桶垫（溶水型）</td><td>片</td><td>0</td><td>691</td><td>0.00%</td><td>70</td><td>1002</td><td>6.99%</td><td>100</td><td>605</td><td>16.53%</td><td>0</td><td>687</td><td>0.00%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>100</td><td>482</td><td>20.75%</td><td>0</td><td>345</td><td>0.00%</td><td>0</td><td>722</td><td>0.00%</td><td>0</td><td>866</td><td>0.00%</td><td>0</td><td>258</td><td>0.00%</td></tr><tr><td>马桶留香凝胶小花</td><td>支</td><td>0</td><td>691</td><td>0.00%</td><td>0</td><td>1002</td><td>0.00%</td><td>0</td><td>605</td><td>0.00%</td><td>0</td><td>687</td><td>0.00%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>0</td><td>482</td><td>0.00%</td><td>0</td><td>345</td><td>0.00%</td><td>16</td><td>722</td><td>2.22%</td><td>0</td><td>866</td><td>0.00%</td><td>0</td><td>258</td><td>0.00%</td></tr><tr><td>马桶清洁湿巾</td><td>盒</td><td>0</td><td>691</td><td>0.00%</td><td>3</td><td>1002</td><td>0.30%</td><td>4</td><td>605</td><td>0.66%</td><td>0</td><td>687</td><td>0.00%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>90</td><td>482</td><td>18.67%</td><td>0</td><td>345</td><td>0.00%</td><td>4</td><td>722</td><td>0.55%</td><td>4</td><td>866</td><td>0.46%</td><td>0</td><td>258</td><td>0.00%</td></tr><tr><td>韩纪氨基酸洗面奶10g/支</td><td>支</td><td>0</td><td>691</td><td>0.00%</td><td>0</td><td>1002</td><td>0.00%</td><td>0</td><td>605</td><td>0.00%</td><td>0</td><td>687</td><td>0.00%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>0</td><td>482</td><td>0.00%</td><td>0</td><td>345</td><td>0.00%</td><td>0</td><td>722</td><td>0.00%</td><td>0</td><td>866</td><td>0.00%</td><td>0</td><td>258</td><td>0.00%</td></tr><tr><td>SADOER凡士林护手霜30g/支</td><td>支</td><td>0</td><td>691</td><td>0.00%</td><td>0</td><td>1002</td><td>0.00%</td><td>0</td><td>605</td><td>0.00%</td><td>0</td><td>687</td><td>0.00%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>0</td><td>482</td><td>0.00%</td><td>0</td><td>345</td><td>0.00%</td><td>0</td><td>722</td><td>0.00%</td><td>0</td><td>866</td><td>0.00%</td><td>30</td><td>258</td><td>11.63%</td></tr><tr><td>一次性牙刷+牙膏/套</td><td>套</td><td>90</td><td>691</td><td>13.02%</td><td>0</td><td>1002</td><td>0.00%</td><td>0</td><td>605</td><td>0.00%</td><td>0</td><td>687</td><td>0.00%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>0</td><td>482</td><td>0.00%</td><td>0</td><td>345</td><td>0.00%</td><td>0</td><td>722</td><td>0.00%</td><td>0</td><td>866</td><td>0.00%</td><td>0</td><td>258</td><td>0.00%</td></tr><tr><td>长条木梳/把</td><td>把</td><td>90</td><td>691</td><td>13.02%</td><td>0</td><td>1002</td><td>0.00%</td><td>0</td><td>605</td><td>0.00%</td><td>0</td><td>687</td><td>0.00%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>0</td><td>482</td><td>0.00%</td><td>0</td><td>345</td><td>0.00%</td><td>30</td><td>722</td><td>4.16%</td><td>0</td><td>866</td><td>0.00%</td><td>10</td><td>258</td><td>3.88%</td></tr><tr><td>漱口水</td><td>个</td><td>0</td><td>691</td><td>0.00%</td><td>0</td><td>1002</td><td>0.00%</td><td>0</td><td>605</td><td>0.00%</td><td>144</td><td>687</td><td>20.96%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>100</td><td>482</td><td>20.75%</td><td>0</td><td>345</td><td>0.00%</td><td>0</td><td>722</td><td>0.00%</td><td>0</td><td>866</td><td>0.00%</td><td>0</td><td>258</td><td>0.00%</td></tr><tr><td>牙线</td><td>nan</td><td>0</td><td>691</td><td>0.00%</td><td>0</td><td>1002</td><td>0.00%</td><td>0</td><td>605</td><td>0.00%</td><td>5000</td><td>687</td><td>727.80%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>0</td><td>482</td><td>0.00%</td><td>0</td><td>345</td><td>0.00%</td><td>500</td><td>722</td><td>69.25%</td><td>0</td><td>866</td><td>0.00%</td><td>200</td><td>258</td><td>77.52%</td></tr><tr><td>姿妍国潮风压缩毛巾红色24*30cm(20粒)/袋</td><td>袋</td><td>0</td><td>691</td><td>0.00%</td><td>0</td><td>1002</td><td>0.00%</td><td>120</td><td>605</td><td>19.83%</td><td>200</td><td>687</td><td>29.11%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>0</td><td>482</td><td>0.00%</td><td>0</td><td>345</td><td>0.00%</td><td>0</td><td>722</td><td>0.00%</td><td>0</td><td>866</td><td>0.00%</td><td>0</td><td>258</td><td>0.00%</td></tr><tr><td>护理包白色款(棉签4+粉扑1+头绳1)</td><td>包</td><td>0</td><td>691</td><td>0.00%</td><td>10</td><td>1002</td><td>1.00%</td><td>0</td><td>605</td><td>0.00%</td><td>100</td><td>687</td><td>14.56%</td><td>0</td><td>348</td><td>0.00%</td><td>0</td><td>454</td><td>0.00%</td><td>0</td><td>481</td><td>0.00%</td><td>0</td><td>482</td><td>0.00%</td><td>0</td><td>345</td><td>0.00%</td><td>1</td><td>722</td><td>0.14%</td><td>0</td><td>866</td><td>0.00%</td><td>100</td><td>258</td><td>38.76%</td></tr>
+            </table>
+            <h2 style="margin-top:40px;color:#dc3545;">晨宇 - 不合格商品清单</h2><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;">
+            <tr style="background:#dc3545;color:white;">
+                <th style="border:1px solid #ddd;padding:10px;text-align:left;">商品名称</th>
+                <th style="border:1px solid #ddd;padding:10px;">通辽每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">本店每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">合格阈值(通辽70%)</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距百分比</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距值</th>
+            </tr>
+        
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">毛巾卷260g*15m</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">3.32%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.87%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.33%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-73.9%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0246</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">厕纸100G/卷（大卷）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">27.70%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">19.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.2770</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">一次性马桶垫独立包装（无纺布）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">34.63%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">21.71%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">24.24%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-37.3%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.1292</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶留香凝胶小花</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.22%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">1.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0222</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶清洁湿巾</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0055</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">牙线</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">69.25%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">48.48%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.6925</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">护理包白色款(棉签4+粉扑1+头绳1)</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.14%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.10%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0014</td>
+                </tr>
+            </table><h2 style="margin-top:40px;color:#dc3545;">上东 - 不合格商品清单</h2><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;">
+            <tr style="background:#dc3545;color:white;">
+                <th style="border:1px solid #ddd;padding:10px;text-align:left;">商品名称</th>
+                <th style="border:1px solid #ddd;padding:10px;">通辽每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">本店每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">合格阈值(通辽70%)</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距百分比</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距值</th>
+            </tr>
+        
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">毛巾卷260g*15m</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">3.32%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.30%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.33%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-91.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0302</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">一次性马桶垫独立包装（无纺布）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">34.63%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">24.24%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.3463</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶留香凝胶小花</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.22%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">1.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0222</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶清洁湿巾</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.30%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-46.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0025</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">长条木梳/把</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">4.16%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.91%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0416</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">牙线</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">69.25%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">48.48%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.6925</td>
+                </tr>
+            </table><h2 style="margin-top:40px;color:#dc3545;">榆树 - 不合格商品清单</h2><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;">
+            <tr style="background:#dc3545;color:white;">
+                <th style="border:1px solid #ddd;padding:10px;text-align:left;">商品名称</th>
+                <th style="border:1px solid #ddd;padding:10px;">通辽每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">本店每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">合格阈值(通辽70%)</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距百分比</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距值</th>
+            </tr>
+        
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">毛巾卷260g*15m</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">3.32%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.33%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0332</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">一次性马桶垫独立包装（无纺布）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">34.63%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">24.24%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.3463</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶留香凝胶小花</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.22%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">1.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0222</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">长条木梳/把</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">4.16%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.91%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0416</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">牙线</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">69.25%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">48.48%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.6925</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">护理包白色款(棉签4+粉扑1+头绳1)</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.14%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.10%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0014</td>
+                </tr>
+            </table><h2 style="margin-top:40px;color:#dc3545;">松原一 - 不合格商品清单</h2><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;">
+            <tr style="background:#dc3545;color:white;">
+                <th style="border:1px solid #ddd;padding:10px;text-align:left;">商品名称</th>
+                <th style="border:1px solid #ddd;padding:10px;">通辽每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">本店每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">合格阈值(通辽70%)</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距百分比</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距值</th>
+            </tr>
+        
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">毛巾卷260g*15m</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">3.32%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.33%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0332</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">一次性马桶垫独立包装（无纺布）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">34.63%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">24.24%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.3463</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶留香凝胶小花</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.22%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">1.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0222</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶清洁湿巾</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0055</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">长条木梳/把</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">4.16%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.91%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0416</td>
+                </tr>
+            </table><h2 style="margin-top:40px;color:#dc3545;">松原二 - 不合格商品清单</h2><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;">
+            <tr style="background:#dc3545;color:white;">
+                <th style="border:1px solid #ddd;padding:10px;text-align:left;">商品名称</th>
+                <th style="border:1px solid #ddd;padding:10px;">通辽每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">本店每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">合格阈值(通辽70%)</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距百分比</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距值</th>
+            </tr>
+        
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">毛巾卷260g*15m</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">3.32%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.57%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.33%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-82.7%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0275</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">厕纸100G/卷（大卷）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">27.70%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">19.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.2770</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">一次性马桶垫独立包装（无纺布）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">34.63%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">24.24%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.3463</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶留香凝胶小花</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.22%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">1.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0222</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶清洁湿巾</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0055</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">长条木梳/把</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">4.16%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.91%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0416</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">牙线</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">69.25%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">48.48%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.6925</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">护理包白色款(棉签4+粉扑1+头绳1)</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.14%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.10%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0014</td>
+                </tr>
+            </table><h2 style="margin-top:40px;color:#dc3545;">通化 - 不合格商品清单</h2><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;">
+            <tr style="background:#dc3545;color:white;">
+                <th style="border:1px solid #ddd;padding:10px;text-align:left;">商品名称</th>
+                <th style="border:1px solid #ddd;padding:10px;">通辽每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">本店每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">合格阈值(通辽70%)</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距百分比</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距值</th>
+            </tr>
+        
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">毛巾卷260g*15m</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">3.32%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.33%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0332</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">厕纸100G/卷（大卷）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">27.70%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">19.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.2770</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">一次性马桶垫独立包装（无纺布）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">34.63%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">24.24%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.3463</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶留香凝胶小花</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.22%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">1.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0222</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶清洁湿巾</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0055</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">长条木梳/把</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">4.16%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.91%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0416</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">牙线</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">69.25%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">48.48%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.6925</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">护理包白色款(棉签4+粉扑1+头绳1)</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.14%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.10%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0014</td>
+                </tr>
+            </table><h2 style="margin-top:40px;color:#dc3545;">鸡西 - 不合格商品清单</h2><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;">
+            <tr style="background:#dc3545;color:white;">
+                <th style="border:1px solid #ddd;padding:10px;text-align:left;">商品名称</th>
+                <th style="border:1px solid #ddd;padding:10px;">通辽每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">本店每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">合格阈值(通辽70%)</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距百分比</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距值</th>
+            </tr>
+        
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">毛巾卷260g*15m</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">3.32%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.33%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0332</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">厕纸100G/卷（大卷）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">27.70%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">19.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.2770</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">一次性马桶垫独立包装（无纺布）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">34.63%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">24.24%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.3463</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶留香凝胶小花</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.22%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">1.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0222</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶清洁湿巾</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0055</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">长条木梳/把</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">4.16%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.91%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0416</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">牙线</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">69.25%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">48.48%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.6925</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">护理包白色款(棉签4+粉扑1+头绳1)</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.14%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.10%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0014</td>
+                </tr>
+            </table><h2 style="margin-top:40px;color:#dc3545;">佳木斯 - 不合格商品清单</h2><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;">
+            <tr style="background:#dc3545;color:white;">
+                <th style="border:1px solid #ddd;padding:10px;text-align:left;">商品名称</th>
+                <th style="border:1px solid #ddd;padding:10px;">通辽每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">本店每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">合格阈值(通辽70%)</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距百分比</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距值</th>
+            </tr>
+        
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">毛巾卷260g*15m</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">3.32%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.33%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0332</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">一次性马桶垫独立包装（无纺布）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">34.63%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">24.24%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.3463</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶留香凝胶小花</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.22%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">1.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0222</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">长条木梳/把</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">4.16%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.91%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0416</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">牙线</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">69.25%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">48.48%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.6925</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">护理包白色款(棉签4+粉扑1+头绳1)</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.14%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.10%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0014</td>
+                </tr>
+            </table><h2 style="margin-top:40px;color:#dc3545;">安达 - 不合格商品清单</h2><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;">
+            <tr style="background:#dc3545;color:white;">
+                <th style="border:1px solid #ddd;padding:10px;text-align:left;">商品名称</th>
+                <th style="border:1px solid #ddd;padding:10px;">通辽每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">本店每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">合格阈值(通辽70%)</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距百分比</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距值</th>
+            </tr>
+        
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">一次性马桶垫独立包装（无纺布）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">34.63%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">24.24%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.3463</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶留香凝胶小花</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.22%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">1.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0222</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶清洁湿巾</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0055</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">长条木梳/把</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">4.16%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.91%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0416</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">牙线</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">69.25%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">48.48%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.6925</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">护理包白色款(棉签4+粉扑1+头绳1)</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.14%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.10%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0014</td>
+                </tr>
+            </table><h2 style="margin-top:40px;color:#dc3545;">红旗街 - 不合格商品清单</h2><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;">
+            <tr style="background:#dc3545;color:white;">
+                <th style="border:1px solid #ddd;padding:10px;text-align:left;">商品名称</th>
+                <th style="border:1px solid #ddd;padding:10px;">通辽每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">本店每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">合格阈值(通辽70%)</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距百分比</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距值</th>
+            </tr>
+        
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">毛巾卷260g*15m</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">3.32%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.46%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.33%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-86.1%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0286</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">一次性马桶垫独立包装（无纺布）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">34.63%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">23.09%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">24.24%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-33.3%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.1153</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶留香凝胶小花</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.22%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">1.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0222</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">长条木梳/把</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">4.16%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.91%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0416</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">牙线</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">69.25%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">48.48%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.6925</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">护理包白色款(棉签4+粉扑1+头绳1)</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.14%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.10%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0014</td>
+                </tr>
+            </table><h2 style="margin-top:40px;color:#dc3545;">法库 - 不合格商品清单</h2><table style="width:100%;border-collapse:collapse;margin-top:10px;font-size:14px;">
+            <tr style="background:#dc3545;color:white;">
+                <th style="border:1px solid #ddd;padding:10px;text-align:left;">商品名称</th>
+                <th style="border:1px solid #ddd;padding:10px;">通辽每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">本店每客消耗</th>
+                <th style="border:1px solid #ddd;padding:10px;">合格阈值(通辽70%)</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距百分比</th>
+                <th style="border:1px solid #ddd;padding:10px;">差距值</th>
+            </tr>
+        
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">毛巾卷260g*15m</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">3.32%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.33%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0332</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">一次性马桶垫独立包装（无纺布）</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">34.63%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">24.24%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.3463</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶留香凝胶小花</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">2.22%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">1.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0222</td>
+                </tr>
+            
+                <tr style="background:#fff3cd;">
+                    <td style="border:1px solid #ddd;padding:8px;text-align:left;font-weight:500;">马桶清洁湿巾</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.55%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.00%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.39%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;color:#dc3545;font-weight:600;">-100.0%</td>
+                    <td style="border:1px solid #ddd;padding:8px;text-align:center;">0.0055</td>
+                </tr>
+            </table>
+        </div>
+    </body>
+    </html>
+    

@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  ktv-dashboard:
+    build: .
+    container_name: ktv-dashboard
+    ports:
+      - "8502:8502"
+    volumes:
+      # 挂载数据库文件（如果使用 SQLite）
+      - ./database:/app/database
+      # 挂载日志目录
+      - ./logs:/app/logs
+      # 挂载数据目录（如果需要）
+      - ./data:/app/data
+    environment:
+      - TZ=Asia/Shanghai
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8502/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s

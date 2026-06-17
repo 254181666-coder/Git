@@ -1,0 +1,1064 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>晨宇店 - 4月vs5月经营数据对比报告</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: #f8f9fa;
+            color: #1a1a1a;
+            min-height: 100vh;
+            padding: 30px 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #0066cc, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card h3 {
+            font-size: 0.95em;
+            color: #666666;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .card .value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .card .label {
+            color: #666666;
+            font-size: 0.9em;
+        }
+        .card .sub-value {
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .section {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .section h2 {
+            margin-bottom: 25px;
+            color: #0066cc;
+        }
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        .chart-container {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid #e0e0e0;
+        }
+        .chart-container h3 {
+            margin-bottom: 20px;
+            color: #0066cc;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+        .table th, .table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .table th {
+            background: #f0f7ff;
+            font-weight: 600;
+            color: #0066cc;
+        }
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+        .positive { color: #16a34a; }
+        .negative { color: #dc2626; }
+        .april { color: #0066cc; }
+        .may { color: #ea580c; }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .summary-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+        }
+        .summary-item .label {
+            color: #666666;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+        .summary-item .value {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .vs-header {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .vs-store {
+            text-align: center;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        .vs-store.april {
+            background: #e6f0ff;
+            border: 1px solid #b3d1ff;
+        }
+        .vs-store.may {
+            background: #fff3e6;
+            border: 1px solid #ffd6b3;
+        }
+        .vs-store h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .vs-divider {
+            font-size: 2em;
+            font-weight: bold;
+            color: #666666;
+        }
+        .insights {
+            background: #f0e6ff;
+            border: 1px solid #d9b3ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .insights h3 {
+            color: #7c3aed;
+            margin-bottom: 15px;
+        }
+        .insights ul {
+            list-style: none;
+            padding: 0;
+        }
+        .insights li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .insights li:last-child {
+            border-bottom: none;
+        }
+        .insights li::before {
+            content: "💡";
+            margin-right: 10px;
+        }
+        .period-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+        .period-table th, .period-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #e0e0e0;
+        }
+        .period-table th {
+            background: #f0f7ff;
+            font-weight: 600;
+            color: #0066cc;
+        }
+        .period-table .section-header {
+            background: #e9ecef;
+            font-weight: bold;
+            text-align: left;
+        }
+        .period-table .growth-positive {
+            color: #16a34a;
+            font-weight: 500;
+        }
+        .period-table .growth-negative {
+            color: #dc2626;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>晨宇店经营数据分析</h1>
+            <p style="color:#666666; font-size:1.1em">4月 vs 5月对比报告（含同比环比）</p>
+        </header>
+
+        <div class="vs-header">
+            <div class="vs-store april">
+                <h3 class="april">2026年4月</h3>
+                <div class="summary-item">
+                    <div class="label">总营业额</div>
+                    <div class="value april">¥641,625</div>
+                </div>
+                <div class="summary-item" style="margin-top:15px">
+                    <div class="label">日均</div>
+                    <div class="value april">¥21,387</div>
+                </div>
+                <div class="summary-item" style="margin-top:15px">
+                    <div class="label">数据天数</div>
+                    <div class="value">30天</div>
+                </div>
+            </div>
+            <div class="vs-divider">VS</div>
+            <div class="vs-store may">
+                <h3 class="may">2026年5月</h3>
+                <div class="summary-item">
+                    <div class="label">总营业额</div>
+                    <div class="value may">¥384,585</div>
+                </div>
+                <div class="summary-item" style="margin-top:15px">
+                    <div class="label">日均</div>
+                    <div class="value may">¥25,639</div>
+                </div>
+                <div class="summary-item" style="margin-top:15px">
+                    <div class="label">数据天数</div>
+                    <div class="value">15天</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard">
+            <div class="card">
+                <h3>总营业额变化</h3>
+                <div class="value negative">¥-257,040</div>
+                <div class="label">5月 下降</div>
+            </div>
+            <div class="card">
+                <h3>日均变化</h3>
+                <div class="value positive">¥4,251</div>
+                <div class="label">5月 增长</div>
+            </div>
+            <div class="card">
+                <h3>增长率</h3>
+                <div class="value negative">-40.1%</div>
+                <div class="label">5月较4月</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>收入构成对比</h2>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>收入结构</h3>
+                    <canvas id="revenueBreakdown"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>日营业额趋势</h3>
+                    <canvas id="dailyTrend"></canvas>
+                </div>
+            </div>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="label">4月 - 超市收入</div>
+                    <div class="value april">¥165,553</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">5月 - 超市收入</div>
+                    <div class="value may">¥66,796</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">4月 - 房费收入</div>
+                    <div class="value april">¥35,719</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">5月 - 房费收入</div>
+                    <div class="value may">¥15,715</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">4月 - 储值卡销售</div>
+                    <div class="value april">¥292,219</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">5月 - 储值卡销售</div>
+                    <div class="value may">¥210,100</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">4月 - 次卡销售</div>
+                    <div class="value april">¥176</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">5月 - 次卡销售</div>
+                    <div class="value may">¥11,858</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>待客台数对比</h2>
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h3>总待客台数</h3>
+                    <canvas id="customersTotal"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>日均待客台数</h3>
+                    <canvas id="customersAvg"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>时段待客分布</h3>
+                    <canvas id="timePeriod"></canvas>
+                </div>
+            </div>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="label">4月 - 总待客台数</div>
+                    <div class="value april">5,104台</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">5月 - 总待客台数</div>
+                    <div class="value may">2,447台</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">4月 - 日均待客</div>
+                    <div class="value april">170.1台</div>
+                </div>
+                <div class="summary-item">
+                    <div class="label">5月 - 日均待客</div>
+                    <div class="value may">163.1台</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>各时段待客台次同比环比分析</h2>
+            <table class="period-table">
+                <thead>
+                    <tr>
+                        <th>时段</th>
+                        <th>2025年4月</th>
+                        <th>2025年5月1-15日</th>
+                        <th>2026年4月</th>
+                        <th>2026年5月1-15日</th>
+                        <th>4月同比</th>
+                        <th>5月同比</th>
+                        <th>5月环比</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="8" class="section-header">18点前</td>
+                    </tr>
+                    <tr>
+                        <td>待客台次</td>
+                        <td>2,466</td>
+                        <td>1,266</td>
+                        <td>2,537</td>
+                        <td>1,145</td>
+                        <td class="growth-positive">
+                            +71 (+2.9%)
+                        </td>
+                        <td class="growth-negative">
+                            -121 (-9.6%)
+                        </td>
+                        <td class="growth-negative">
+                            -1,392 (-54.9%)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" class="section-header">18-24点</td>
+                    </tr>
+                    <tr>
+                        <td>待客台次</td>
+                        <td>2,699</td>
+                        <td>1,254</td>
+                        <td>2,115</td>
+                        <td>1,078</td>
+                        <td class="growth-negative">
+                            -584 (-21.6%)
+                        </td>
+                        <td class="growth-negative">
+                            -176 (-14.0%)
+                        </td>
+                        <td class="growth-negative">
+                            -1,037 (-49.0%)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" class="section-header">00点后</td>
+                    </tr>
+                    <tr>
+                        <td>待客台次</td>
+                        <td>876</td>
+                        <td>409</td>
+                        <td>452</td>
+                        <td>224</td>
+                        <td class="growth-negative">
+                            -424 (-48.4%)
+                        </td>
+                        <td class="growth-negative">
+                            -185 (-45.2%)
+                        </td>
+                        <td class="growth-negative">
+                            -228 (-50.4%)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8" class="section-header">合计</td>
+                    </tr>
+                    <tr>
+                        <td>待客台次</td>
+                        <td>6,041</td>
+                        <td>2,929</td>
+                        <td>5,104</td>
+                        <td>2,447</td>
+                        <td class="growth-negative">
+                            -937 (-15.5%)
+                        </td>
+                        <td class="growth-negative">
+                            -482 (-16.5%)
+                        </td>
+                        <td class="growth-negative">
+                            -2,657 (-52.1%)
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>每日经营明细</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>日期</th>
+                        <th>星期</th>
+                        <th>总营业额</th>
+                        <th>超市收入</th>
+                        <th>房费收入</th>
+                        <th>待客台数</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr style="background: #e6f0ff;">
+                        <td colspan="6" style="font-weight: bold; color: #0066cc;">2026年4月数据</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-01</td>
+                        <td>三</td>
+                        <td>¥21,794</td>
+                        <td>¥3,949</td>
+                        <td>¥1,417</td>
+                        <td>138台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-02</td>
+                        <td>四</td>
+                        <td>¥11,323</td>
+                        <td>¥4,384</td>
+                        <td>¥914</td>
+                        <td>139台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-03</td>
+                        <td>五</td>
+                        <td>¥16,087</td>
+                        <td>¥5,759</td>
+                        <td>¥1,524</td>
+                        <td>126台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-04</td>
+                        <td>六</td>
+                        <td>¥37,106</td>
+                        <td>¥7,570</td>
+                        <td>¥2,351</td>
+                        <td>233台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-05</td>
+                        <td>日</td>
+                        <td>¥24,166</td>
+                        <td>¥6,427</td>
+                        <td>¥1,621</td>
+                        <td>199台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-06</td>
+                        <td>一</td>
+                        <td>¥24,117</td>
+                        <td>¥4,018</td>
+                        <td>¥851</td>
+                        <td>152台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-07</td>
+                        <td>二</td>
+                        <td>¥13,486</td>
+                        <td>¥4,574</td>
+                        <td>¥605</td>
+                        <td>146台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-08</td>
+                        <td>三</td>
+                        <td>¥11,453</td>
+                        <td>¥3,415</td>
+                        <td>¥623</td>
+                        <td>138台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-09</td>
+                        <td>四</td>
+                        <td>¥15,460</td>
+                        <td>¥3,583</td>
+                        <td>¥807</td>
+                        <td>140台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-10</td>
+                        <td>五</td>
+                        <td>¥32,533</td>
+                        <td>¥10,432</td>
+                        <td>¥2,721</td>
+                        <td>172台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-11</td>
+                        <td>六</td>
+                        <td>¥35,147</td>
+                        <td>¥8,127</td>
+                        <td>¥1,845</td>
+                        <td>215台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-12</td>
+                        <td>日</td>
+                        <td>¥16,376</td>
+                        <td>¥4,744</td>
+                        <td>¥963</td>
+                        <td>169台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-13</td>
+                        <td>一</td>
+                        <td>¥17,202</td>
+                        <td>¥4,295</td>
+                        <td>¥1,027</td>
+                        <td>142台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-14</td>
+                        <td>二</td>
+                        <td>¥18,760</td>
+                        <td>¥5,580</td>
+                        <td>¥692</td>
+                        <td>148台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-15</td>
+                        <td>三</td>
+                        <td>¥20,452</td>
+                        <td>¥5,327</td>
+                        <td>¥1,069</td>
+                        <td>159台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-16</td>
+                        <td>四</td>
+                        <td>¥20,654</td>
+                        <td>¥5,054</td>
+                        <td>¥808</td>
+                        <td>153台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-17</td>
+                        <td>五</td>
+                        <td>¥27,884</td>
+                        <td>¥7,878</td>
+                        <td>¥2,641</td>
+                        <td>189台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-18</td>
+                        <td>六</td>
+                        <td>¥34,465</td>
+                        <td>¥8,734</td>
+                        <td>¥2,129</td>
+                        <td>235台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-19</td>
+                        <td>日</td>
+                        <td>¥21,491</td>
+                        <td>¥3,889</td>
+                        <td>¥904</td>
+                        <td>174台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-20</td>
+                        <td>一</td>
+                        <td>¥19,662</td>
+                        <td>¥3,935</td>
+                        <td>¥742</td>
+                        <td>155台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-21</td>
+                        <td>二</td>
+                        <td>¥15,241</td>
+                        <td>¥4,410</td>
+                        <td>¥963</td>
+                        <td>142台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-22</td>
+                        <td>三</td>
+                        <td>¥14,952</td>
+                        <td>¥4,214</td>
+                        <td>¥698</td>
+                        <td>163台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-23</td>
+                        <td>四</td>
+                        <td>¥12,878</td>
+                        <td>¥2,571</td>
+                        <td>¥247</td>
+                        <td>154台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-24</td>
+                        <td>五</td>
+                        <td>¥30,771</td>
+                        <td>¥5,928</td>
+                        <td>¥1,265</td>
+                        <td>183台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-25</td>
+                        <td>六</td>
+                        <td>¥22,451</td>
+                        <td>¥4,771</td>
+                        <td>¥1,161</td>
+                        <td>195台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-26</td>
+                        <td>日</td>
+                        <td>¥13,756</td>
+                        <td>¥4,999</td>
+                        <td>¥606</td>
+                        <td>189台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-27</td>
+                        <td>一</td>
+                        <td>¥18,132</td>
+                        <td>¥4,670</td>
+                        <td>¥951</td>
+                        <td>178台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-28</td>
+                        <td>二</td>
+                        <td>¥22,586</td>
+                        <td>¥6,038</td>
+                        <td>¥816</td>
+                        <td>169台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-29</td>
+                        <td>三</td>
+                        <td>¥26,401</td>
+                        <td>¥4,701</td>
+                        <td>¥1,266</td>
+                        <td>183台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-04-30</td>
+                        <td>四</td>
+                        <td>¥24,839</td>
+                        <td>¥11,576</td>
+                        <td>¥1,492</td>
+                        <td>226台</td>
+                    </tr>
+
+                    <tr style="background: #fff3e6;">
+                        <td colspan="6" style="font-weight: bold; color: #ea580c;">2026年5月数据</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-01</td>
+                        <td>五</td>
+                        <td>¥40,805</td>
+                        <td>¥8,178</td>
+                        <td>¥2,178</td>
+                        <td>213台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-02</td>
+                        <td>六</td>
+                        <td>¥37,424</td>
+                        <td>¥6,772</td>
+                        <td>¥1,676</td>
+                        <td>198台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-03</td>
+                        <td>日</td>
+                        <td>¥42,209</td>
+                        <td>¥4,033</td>
+                        <td>¥1,102</td>
+                        <td>180台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-04</td>
+                        <td>一</td>
+                        <td>¥32,019</td>
+                        <td>¥4,824</td>
+                        <td>¥976</td>
+                        <td>196台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-05</td>
+                        <td>二</td>
+                        <td>¥22,338</td>
+                        <td>¥3,986</td>
+                        <td>¥625</td>
+                        <td>151台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-06</td>
+                        <td>三</td>
+                        <td>¥20,009</td>
+                        <td>¥3,871</td>
+                        <td>¥2,925</td>
+                        <td>132台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-07</td>
+                        <td>四</td>
+                        <td>¥20,877</td>
+                        <td>¥3,039</td>
+                        <td>¥456</td>
+                        <td>143台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-08</td>
+                        <td>五</td>
+                        <td>¥20,045</td>
+                        <td>¥2,165</td>
+                        <td>¥522</td>
+                        <td>137台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-09</td>
+                        <td>六</td>
+                        <td>¥29,494</td>
+                        <td>¥4,726</td>
+                        <td>¥1,039</td>
+                        <td>181台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-10</td>
+                        <td>日</td>
+                        <td>¥22,305</td>
+                        <td>¥4,908</td>
+                        <td>¥647</td>
+                        <td>173台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-11</td>
+                        <td>一</td>
+                        <td>¥16,594</td>
+                        <td>¥2,507</td>
+                        <td>¥862</td>
+                        <td>140台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-12</td>
+                        <td>二</td>
+                        <td>¥19,430</td>
+                        <td>¥4,005</td>
+                        <td>¥730</td>
+                        <td>137台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-13</td>
+                        <td>三</td>
+                        <td>¥18,560</td>
+                        <td>¥3,564</td>
+                        <td>¥434</td>
+                        <td>146台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-14</td>
+                        <td>四</td>
+                        <td>¥18,235</td>
+                        <td>¥4,779</td>
+                        <td>¥386</td>
+                        <td>142台</td>
+                    </tr>
+
+                    <tr>
+                        <td>2026-05-15</td>
+                        <td>五</td>
+                        <td>¥24,242</td>
+                        <td>¥5,440</td>
+                        <td>¥1,157</td>
+                        <td>178台</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>核心洞察</h2>
+            <div class="insights">
+                <h3>关键发现</h3>
+                <ul>
+
+                    <li>5月总营业额较4月下降 ¥257,040 (-40.1%)，需关注</li>
+
+                    <li>日均待客台数从 170.1台 下降至 163.1台，需关注客流情况</li>
+
+                    <li>超市收入有所下降，可优化商品策略</li>
+
+                    <li>房费收入有所下降，可关注包厢运营情况</li>
+
+                    <li>4月同比分析：2026年4月总待客台次较2025年同期下降 937台 (-15.5%)</li>
+
+                    <li>5月同比分析：2026年5月1-15日总待客台次较2025年同期下降 482台 (-16.5%)</li>
+
+                    <li>5月环比分析：较4月下降 2,657台 (-52.1%)</li>
+
+                    <li>晚场客流占比从 50.3% 提升到 53.2%，夜场经营改善</li>
+
+                </ul>
+            </div>
+        </div>
+
+        <script>
+            const chartOptions = {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: { labels: { color: '#1a1a1a' } }
+                },
+                scales: {
+                    x: { ticks: { color: '#1a1a1a' }, grid: { color: 'rgba(0,0,0,0.05)' } },
+                    y: { ticks: { color: '#1a1a1a' }, grid: { color: 'rgba(0,0,0,0.05)' } }
+                }
+            };
+
+            // 收入结构图表
+            new Chart(document.getElementById('revenueBreakdown'), {
+                type: 'bar',
+                data: {
+                    labels: ['超市收入', '房费收入', '储值卡销售', '次卡销售'],
+                    datasets: [
+                        {
+                            label: '2026年4月',
+                            data: [165552.97, 35719.299999999996, 292218.8, 176.0],
+                            backgroundColor: 'rgba(0,102,204,0.7)',
+                            borderColor: '#0066cc',
+                            borderWidth: 2
+                        },
+                        {
+                            label: '2026年5月',
+                            data: [66795.87999999999, 15715.48, 210100.4, 11858.0],
+                            backgroundColor: 'rgba(234,88,12,0.7)',
+                            borderColor: '#ea580c',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: chartOptions
+            });
+
+            // 日趋势图表
+            new Chart(document.getElementById('dailyTrend'), {
+                type: 'line',
+                data: {
+                    labels: ['04-01', '04-02', '04-03', '04-04', '04-05', '04-06', '04-07', '04-08', '04-09', '04-10', '04-11', '04-12', '04-13', '04-14', '04-15', '04-16', '04-17', '04-18', '04-19', '04-20', '04-21', '04-22', '04-23', '04-24', '04-25', '04-26', '04-27', '04-28', '04-29', '04-30', '05-01', '05-02', '05-03', '05-04', '05-05', '05-06', '05-07', '05-08', '05-09', '05-10', '05-11', '05-12', '05-13', '05-14', '05-15'],
+                    datasets: [
+                        {
+                            label: '日营业额',
+                            data: [21793.7, 11322.89, 16087.49, 37106.49, 24165.84, 24116.69, 13486.29, 11452.53, 15459.73, 32532.68, 35147.3, 16376.04, 17202.44, 18760.28, 20451.68, 20654.1, 27883.82, 34464.81, 21490.87, 19661.82, 15241.29, 14952.29, 12877.59, 30771.43, 22450.54, 13756.43, 18131.51, 22586.42, 26401.2, 24838.62, 40804.73, 37423.83, 42208.85, 32018.98, 22337.76, 20009.35, 20877.04, 20044.51, 29494.12, 22304.94, 16593.67, 19430.11, 18560.14, 18234.97, 24241.86],
+                            borderColor: '#7c3aed',
+                            backgroundColor: 'rgba(124, 58, 237, 0.1)',
+                            tension: 0.3,
+                            fill: true,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    ...chartOptions,
+                    plugins: {
+                        ...chartOptions.plugins
+                    }
+                }
+            });
+
+            // 总待客台数
+            new Chart(document.getElementById('customersTotal'), {
+                type: 'bar',
+                data: {
+                    labels: ['总待客台数'],
+                    datasets: [
+                        {
+                            label: '2026年4月',
+                            data: [5104],
+                            backgroundColor: 'rgba(0,102,204,0.7)',
+                            borderColor: '#0066cc',
+                            borderWidth: 2
+                        },
+                        {
+                            label: '2026年5月',
+                            data: [2447],
+                            backgroundColor: 'rgba(234,88,12,0.7)',
+                            borderColor: '#ea580c',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: chartOptions
+            });
+
+            // 日均待客台数
+            new Chart(document.getElementById('customersAvg'), {
+                type: 'bar',
+                data: {
+                    labels: ['日均待客台数'],
+                    datasets: [
+                        {
+                            label: '2026年4月',
+                            data: [170.13333333333333],
+                            backgroundColor: 'rgba(0,102,204,0.7)',
+                            borderColor: '#0066cc',
+                            borderWidth: 2
+                        },
+                        {
+                            label: '2026年5月',
+                            data: [163.13333333333333],
+                            backgroundColor: 'rgba(234,88,12,0.7)',
+                            borderColor: '#ea580c',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: chartOptions
+            });
+
+            // 时段分布
+            new Chart(document.getElementById('timePeriod'), {
+                type: 'bar',
+                data: {
+                    labels: ['18点前', '18-24点', '00点后'],
+                    datasets: [
+                        {
+                            label: '2026年4月',
+                            data: [2537, 2115, 452],
+                            backgroundColor: 'rgba(0,102,204,0.7)',
+                            borderColor: '#0066cc',
+                            borderWidth: 2
+                        },
+                        {
+                            label: '2026年5月',
+                            data: [1145, 1078, 224],
+                            backgroundColor: 'rgba(234,88,12,0.7)',
+                            borderColor: '#ea580c',
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: chartOptions
+            });
+        </script>
+    </div>
+</body>
+</html>
