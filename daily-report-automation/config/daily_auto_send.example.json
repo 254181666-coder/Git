@@ -1,0 +1,12 @@
+{
+  "send_time": "09:30",
+  "report_path": "reports/daily-report.xlsx",
+  "wechat_recipient": "文件传输助手",
+  "message_template": "今日报告：$report_name",
+  "send_file": true,
+  "wechat_app_name": "WeChat",
+  "wechat_process_name": "WeChat",
+  "ui_delay_seconds": 0.7,
+  "log_dir": "logs",
+  "log_level": "INFO"
+}

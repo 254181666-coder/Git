@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.DS_Store
+logs/*.log
+reports/
+config/daily_auto_send.json
