@@ -1,0 +1,15 @@
+flask
+flask-cors
+opencv-python
+numpy
+pillow
+pyaudio
+torch
+torchvision
+transformers
+openai
+python-dotenv
+requests
+soundfile
+librosa
+moviepy

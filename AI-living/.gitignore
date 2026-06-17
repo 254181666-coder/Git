@@ -1,0 +1,10 @@
+.env
+backend/.env
+node_modules/
+dist/
+__pycache__/
+*.pyc
+*.log
+data/
+backend/data/
+backend/ai-living.db
