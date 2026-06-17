@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>获客工具包页面预览</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: #0d1828;
+      --panel-2: #101d30;
+      --line: #26364d;
+      --ink: #eef6ff;
+      --muted: #94a3b8;
+      --cyan: #22d3ee;
+      --green: #22c55e;
+      --yellow: #facc15;
+      --blue: #38bdf8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at 30% 0%, rgba(34, 211, 238, .12), transparent 30%), var(--bg);
+      color: var(--ink);
+    }
+    .app { display: grid; grid-template-columns: 250px 1fr; min-height: 100vh; }
+    aside {
+      border-right: 1px solid var(--line);
+      padding: 26px 16px;
+      background: rgba(5, 12, 24, .86);
+    }
+    .brand { display: flex; gap: 12px; align-items: center; margin-bottom: 34px; }
+    .logo {
+      width: 42px; height: 42px; border-radius: 8px;
+      display: grid; place-items: center; font-weight: 900;
+      background: linear-gradient(135deg, #2563eb, #22d3ee);
+      box-shadow: 0 12px 30px rgba(34, 211, 238, .22);
+    }
+    .brand strong { display: block; }
+    .brand span, nav button, .hint, p { color: var(--muted); }
+    nav { display: grid; gap: 8px; }
+    nav button {
+      border: 1px solid transparent;
+      background: transparent;
+      color: #cbd5e1;
+      border-radius: 8px;
+      padding: 12px 14px;
+      text-align: left;
+      font-size: 15px;
+    }
+    nav button.active {
+      color: var(--ink);
+      background: rgba(34, 211, 238, .12);
+      border-color: rgba(34, 211, 238, .36);
+    }
+    main { padding: 28px; }
+    header { display: flex; justify-content: space-between; gap: 16px; align-items: flex-start; margin-bottom: 22px; }
+    .eyebrow { color: var(--yellow); font-weight: 800; font-size: 13px; margin-bottom: 8px; }
+    h1 { margin: 0 0 8px; font-size: 34px; letter-spacing: 0; }
+    h2 { margin: 0; font-size: 20px; }
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .btn {
+      border: 1px solid var(--line);
+      background: #0b1424;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-weight: 700;
+    }
+    .btn.primary {
+      border: 0;
+      background: linear-gradient(135deg, #06b6d4, #22c55e);
+      color: #02131a;
+    }
+    .grid { display: grid; gap: 16px; }
+    .metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); margin-bottom: 16px; }
+    .metric, .panel, .lead-row, .card {
+      border: 1px solid var(--line);
+      background: rgba(13, 24, 40, .88);
+      border-radius: 8px;
+    }
+    .metric { padding: 16px; }
+    .metric strong { display: block; font-size: 26px; margin-top: 8px; }
+    .panel { padding: 18px; }
+    .panel-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .lead-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      padding: 16px;
+      margin-bottom: 10px;
+    }
+    .lead-row strong { font-size: 17px; }
+    .lead-row p { margin: 6px 0; overflow-wrap: anywhere; }
+    .lead-table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(15, 23, 42, .48);
+    }
+    .lead-table {
+      width: 100%;
+      min-width: 0;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    .lead-table th, .lead-table td {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 10px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 13px;
+    }
+    .lead-table th {
+      color: var(--muted);
+      background: rgba(2, 6, 23, .45);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .lead-table tr:last-child td { border-bottom: 0; }
+    .lead-table tr.active td {
+      background: rgba(8, 47, 73, .38);
+      box-shadow: inset 0 1px 0 rgba(34, 211, 238, .12), inset 0 -1px 0 rgba(34, 211, 238, .12);
+    }
+    .comment-cell { width: 30%; overflow-wrap: anywhere; line-height: 1.55; }
+    .source-cell { width: 14%; overflow-wrap: anywhere; }
+    .row-actions { width: 190px; }
+    .row-actions .toolbar { justify-content: flex-start; }
+    .row-actions .btn { flex: 1 1 84px; padding: 8px 10px; white-space: normal; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 8px;
+      margin: 3px 4px 0 0;
+      font-size: 12px;
+      font-weight: 800;
+      background: rgba(56, 189, 248, .13);
+      color: var(--blue);
+    }
+    .pill.green { color: #86efac; background: rgba(34, 197, 94, .15); }
+    .pill.yellow { color: var(--yellow); background: rgba(250, 204, 21, .13); }
+    .two { grid-template-columns: minmax(0, 1fr); }
+    .work-card {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: rgba(15, 23, 42, .72);
+      border-radius: 8px;
+      padding: 13px;
+      text-align: left;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+    .work-card.active {
+      border-color: rgba(34, 211, 238, .65);
+      background: rgba(8, 47, 73, .42);
+      box-shadow: inset 3px 0 0 rgba(34, 211, 238, .75);
+    }
+    .field-grid {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 9px 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: rgba(15, 23, 42, .62);
+      margin-bottom: 12px;
+    }
+    .field-grid span:nth-child(odd) { color: var(--muted); }
+    .field-grid span:nth-child(even) { overflow-wrap: anywhere; }
+    .step, .record {
+      border: 1px solid var(--line);
+      background: rgba(15, 23, 42, .62);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .step h3 { margin: 0 0 8px; font-size: 15px; }
+    textarea, input, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: #0b1424;
+      color: var(--ink);
+      border-radius: 8px;
+      padding: 10px;
+    }
+    textarea { min-height: 86px; resize: vertical; }
+    @media (max-width: 1100px) {
+      .app { grid-template-columns: 1fr; }
+      aside { display: none; }
+      .metrics, .two { grid-template-columns: 1fr; }
+      main { padding: 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">
+        <div class="logo">HK</div>
+        <div><strong>获客工具包</strong><span>线索接待与客户沉淀</span></div>
+      </div>
+      <nav>
+        <button>今日工作台</button>
+        <button class="active">线索跟进</button>
+        <button class="active">线索人资产</button>
+        <button>新建获客任务</button>
+        <button>评论池识别</button>
+        <button>回复账号池</button>
+      </nav>
+      <p class="hint" style="margin-top: 28px;">人工确认、账号限流、操作留痕已开启。</p>
+    </aside>
+    <main>
+      <header>
+        <div>
+          <div class="eyebrow">页面预览</div>
+          <h1>线索人资产</h1>
+          <p>列表直接显示网名、ID、IP、评论内容和来源，减少跳转和弹窗。</p>
+        </div>
+        <div class="toolbar">
+          <button class="btn">导出</button>
+          <button class="btn primary">新建采集任务</button>
+        </div>
+      </header>
+
+      <section class="grid metrics">
+        <div class="metric">线索人<strong>32</strong></div>
+        <div class="metric">带 IP<strong>21</strong></div>
+        <div class="metric">可私信<strong>8</strong></div>
+        <div class="metric">待触达<strong>27</strong></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>线索清单</h2>
+          <span class="pill">显示核心字段</span>
+        </div>
+        <div class="lead-table-wrap">
+          <table class="lead-table">
+            <thead>
+              <tr><th>用户名</th><th>抖音号/ID</th><th>IP</th><th>评论内容</th><th>来源</th><th>状态</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>清风 · 评论线索</strong></td>
+                <td>sec_uid_9a8f... / 抖音主页</td>
+                <td>吉林</td>
+                <td class="comment-cell">这个零食礼盒能团购吗？公司下午茶想采购，吉林市能配送最好。</td>
+                <td class="source-cell">抖音作品/评论<br>吉林零食垂类作者池</td>
+                <td><span class="pill yellow">中意向</span><span class="pill">私信待确认</span><span class="pill">反关待确认</span></td>
+                <td class="row-actions"><div class="toolbar"><button class="btn">打开评论来源</button><button class="btn">打开用户主页</button><button class="btn primary">处理这条线索</button></div></td>
+              </tr>
+              <tr>
+                <td><strong>王大胆-</strong></td>
+                <td>未识别</td>
+                <td>未读取</td>
+                <td class="comment-cell">想问一下门店地址，周末能不能到店买？</td>
+                <td class="source-cell">抖音作品/评论<br>作品可见评论</td>
+                <td><span class="pill green">高意向</span><span class="pill yellow">已跟进 1</span></td>
+                <td class="row-actions"><div class="toolbar"><button class="btn">复制资料</button><button class="btn primary">处理这条线索</button></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <header style="margin-top: 30px;">
+        <div>
+          <div class="eyebrow">流程化操作</div>
+          <h1>客户跟进</h1>
+          <p>左侧选择线索，右侧按步骤处理，不再用复杂的聊天式界面。</p>
+        </div>
+      </header>
+
+      <section class="grid two">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>待处理线索</h2>
+            <span class="pill">32 条线索</span>
+          </div>
+          <div class="lead-table-wrap">
+            <table class="lead-table">
+              <thead>
+                <tr><th>用户名</th><th>抖音号/ID</th><th>IP</th><th>评论内容</th><th>来源</th><th>跟进</th><th>操作</th></tr>
+              </thead>
+              <tbody>
+                <tr class="active">
+                  <td><strong>清风 · 评论线索</strong></td>
+                  <td>sec_uid_9a8f...</td>
+                  <td>吉林</td>
+                  <td class="comment-cell">这个零食礼盒能团购吗？公司下午茶想采购，吉林市能配送最好。</td>
+                  <td class="source-cell">抖音作品/评论<br>吉林零食垂类作者池</td>
+                  <td><span class="pill yellow">待确认</span><span class="pill">未跟进</span></td>
+                  <td class="row-actions"><div class="toolbar"><button class="btn">选择</button><button class="btn">人工找回并回复</button><button class="btn primary">官方号首轮私信</button></div></td>
+                </tr>
+                <tr>
+                  <td><strong>王大胆-</strong></td>
+                  <td>未识别</td>
+                  <td>未读取</td>
+                  <td class="comment-cell">想问一下门店地址，周末能不能到店买？</td>
+                  <td class="source-cell">抖音作品/评论<br>作品可见评论</td>
+                  <td><span class="pill green">高意向</span><span class="pill yellow">已跟进 1</span></td>
+                  <td class="row-actions"><div class="toolbar"><button class="btn">选择</button><button class="btn">人工找回并回复</button><button class="btn primary">官方号首轮私信</button></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h2>流程操作</h2>
+            <span class="pill">按步骤处理</span>
+          </div>
+          <div class="field-grid">
+            <span>网名</span><span>清风 · 评论线索</span>
+            <span>ID</span><span>sec_uid_9a8f... / 抖音主页</span>
+            <span>IP</span><span>吉林</span>
+            <span>评论</span><span>这个零食礼盒能团购吗？公司下午茶想采购，吉林市能配送最好。</span>
+            <span>来源</span><span>抖音作品/评论 · 吉林零食垂类作者池</span>
+          </div>
+          <div class="step">
+            <h3>1. 判断线索</h3>
+            <p>确认评论是否真实表达需求，再决定转人工、入客户池或屏蔽。</p>
+            <div class="toolbar"><button class="btn">转人工</button><button class="btn">屏蔽</button><button class="btn primary">入客户池</button></div>
+          </div>
+          <div class="step">
+            <h3>2. 员工号/粉丝号人工回复</h3>
+            <p>先复制定位信息，再打开来源作品或用户主页，人工找到线上评论后回复或私信。</p>
+            <select><option>吉林零食观察号 · 粉丝号/私人号</option></select>
+            <div class="toolbar" style="margin-top:10px;"><button class="btn">打开评论来源</button><button class="btn">打开用户主页</button><button class="btn">复制评论定位信息</button><button class="btn primary">生成手动回复记录</button></div>
+          </div>
+          <div class="step">
+            <h3>3. 官方号智能私信</h3>
+            <p>不依赖 API。官方号授权后，可通过授权窗口小范围执行；未授权或需人工审核时，先生成私信话术并保存留痕。</p>
+            <select><option>吉林零食官方号 · 官方/企业号</option></select>
+            <div class="toolbar" style="margin-top:10px;"><button class="btn primary">生成首轮私信话术</button><button class="btn">生成二次私信话术</button></div>
+          </div>
+          <div class="step">
+            <h3>4. 保存跟进记录</h3>
+            <textarea>官方号首轮私信：您好，看到您在评论里提到“零食礼盒团购”，方便回复预算/地区/数量吗？我帮您转人工确认。</textarea>
+            <div class="toolbar"><button class="btn">复制话术</button><button class="btn primary">保存跟进记录</button></div>
+          </div>
+          <div class="record">
+            <strong>跟进记录</strong>
+            <p>运营员 · 2026/5/25 15:57<br>由评论采集自动沉淀为线索人资产，未自动触达。</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "零食吉林全量严格测试",
+  "testedAt": "2026-05-23T14:18:05.985Z",
+  "inputRows": 1200,
+  "distribution": {
+    "highIntent": 308,
+    "neutral": 618,
+    "blocked": 120,
+    "shortUnder10Chars": 154
+  },
+  "importedRows": 1051,
+  "skippedDuplicates": 149,
+  "generatedCandidates": 311,
+  "freshGeneratedCandidates": 308,
+  "result": "通过：全量评论进入评论池后，严格规则能筛出 308 条高意向候选；屏蔽词与短评论未进入候选。",
+  "fix": "已修复评论匹配误判：候选判断不再把目标账号名称纳入评论关键词匹配。"
+}

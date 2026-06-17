@@ -1,0 +1,265 @@
+{
+  "tasks": [
+    {
+      "id": "task_001",
+      "platform": "抖音作品/评论",
+      "source": "关键词监控",
+      "region": "吉林",
+      "limit": 100,
+      "triggers": [
+        "多少钱",
+        "地址",
+        "配送",
+        "批发"
+      ],
+      "blocks": [
+        "互粉",
+        "广告",
+        "抽奖"
+      ],
+      "note": "只收集公开评论中的商业意向，不自动私信。",
+      "status": "待审核",
+      "createdAt": "2026-05-23T09:00:00.000+08:00"
+    },
+    {
+      "id": "task_002",
+      "platform": "小红书官方留资",
+      "source": "作品链接",
+      "region": "长春",
+      "limit": 80,
+      "triggers": [
+        "团购",
+        "批发",
+        "同城"
+      ],
+      "blocks": [
+        "无关表情",
+        "互关"
+      ],
+      "note": "优先评估官方留资能力，不做自动私信。",
+      "status": "合规评估",
+      "createdAt": "2026-05-23T09:05:00.000+08:00"
+    },
+    {
+      "id": "target_xhs_001",
+      "type": "作品URL",
+      "name": "小红书本地种草笔记",
+      "platform": "小红书笔记/评论",
+      "url": "https://www.xiaohongshu.com/",
+      "region": "吉林",
+      "status": "观察中",
+      "contactPolicy": "需人工确认",
+      "note": "用于测试小红书笔记评论中的本地购买意向，先人工导入样本。",
+      "createdAt": "2026-05-23T09:00:00.000+08:00",
+      "updatedAt": "2026-05-23T09:00:00.000+08:00"
+    }
+  ],
+  "leads": [
+    {
+      "id": "lead_001",
+      "title": "本地零食批发咨询",
+      "platform": "抖音作品/评论",
+      "source": "抖音评论",
+      "assetType": "互动用户",
+      "contactPolicy": "需人工确认",
+      "region": "吉林",
+      "intent": "高",
+      "status": "待分配",
+      "owner": "",
+      "content": "询问同城配送和批发价格",
+      "suggestion": "建议先确认门店区域、需求量和配送时间，再提供官方留资入口。",
+      "createdAt": "2026-05-23T09:10:00.000+08:00",
+      "followUps": []
+    },
+    {
+      "id": "lead_002",
+      "title": "团购合作意向",
+      "platform": "视频号",
+      "source": "直播间评论",
+      "assetType": "互动用户",
+      "contactPolicy": "需人工确认",
+      "region": "吉林",
+      "intent": "中",
+      "status": "待确认",
+      "owner": "",
+      "content": "对团购合作有兴趣，需要人工确认真实性",
+      "suggestion": "由运营确认来源内容，再分配销售跟进。",
+      "createdAt": "2026-05-23T09:16:00.000+08:00",
+      "followUps": []
+    },
+    {
+      "id": "lead_003",
+      "title": "无关互动",
+      "platform": "抖音作品/评论",
+      "source": "作品评论",
+      "assetType": "观察对象",
+      "contactPolicy": "仅观察",
+      "region": "吉林",
+      "intent": "低",
+      "status": "已屏蔽",
+      "owner": "",
+      "content": "表情和互粉类评论",
+      "suggestion": "不进入销售流程。",
+      "createdAt": "2026-05-23T09:20:00.000+08:00",
+      "followUps": []
+    }
+  ],
+  "trackedTargets": [
+    {
+      "id": "target_001",
+      "type": "店铺账号",
+      "name": "本地同行零食店",
+      "platform": "抖音作品/评论",
+      "url": "https://example.com/shop",
+      "region": "吉林",
+      "status": "观察中",
+      "contactPolicy": "仅观察",
+      "note": "跟踪作品更新、评论意向和团购内容，不抓取陌生粉丝联系方式。",
+      "createdAt": "2026-05-23T09:00:00.000+08:00",
+      "updatedAt": "2026-05-23T09:00:00.000+08:00"
+    },
+    {
+      "id": "target_002",
+      "type": "自有粉丝",
+      "name": "自有账号粉丝池",
+      "platform": "抖音作品/评论",
+      "url": "",
+      "region": "吉林",
+      "status": "可沉淀",
+      "contactPolicy": "可外联",
+      "note": "仅限已关注自有账号、互动或主动咨询的用户进入跟进。",
+      "createdAt": "2026-05-23T09:00:00.000+08:00",
+      "updatedAt": "2026-05-23T09:00:00.000+08:00"
+    }
+  ],
+  "sourceSamples": [
+    {
+      "id": "sample_001",
+      "targetId": "target_001",
+      "targetName": "本地同行零食店",
+      "platform": "抖音作品/评论",
+      "sourceType": "评论",
+      "authorAlias": "评论用户A",
+      "region": "吉林",
+      "content": "想问下吉林市能配送吗，团购多少钱？",
+      "assetType": "互动用户",
+      "contactPolicy": "需人工确认",
+      "status": "待识别",
+      "createdAt": "2026-05-23T09:00:00.000+08:00"
+    },
+    {
+      "id": "sample_002",
+      "targetId": "target_002",
+      "targetName": "自有账号粉丝池",
+      "platform": "抖音作品/评论",
+      "sourceType": "自有粉丝互动",
+      "authorAlias": "自有粉丝B",
+      "region": "吉林",
+      "content": "已关注，想了解批发配送，方便加企微吗？",
+      "assetType": "自有粉丝",
+      "contactPolicy": "可外联",
+      "status": "待识别",
+      "createdAt": "2026-05-23T09:00:00.000+08:00"
+    },
+    {
+      "id": "sample_xhs_001",
+      "targetId": "target_xhs_001",
+      "targetName": "小红书本地种草笔记",
+      "platform": "小红书笔记/评论",
+      "sourceType": "笔记评论",
+      "authorAlias": "小红书用户A",
+      "region": "吉林",
+      "content": "这个店在吉林哪里呀，人均多少钱，周末需要预约吗？",
+      "assetType": "互动用户",
+      "contactPolicy": "需人工确认",
+      "status": "待识别",
+      "createdAt": "2026-05-23T09:00:00.000+08:00"
+    }
+  ],
+  "discoveryRules": [
+    {
+      "id": "rule_001",
+      "name": "本地购买意向",
+      "targetTypes": [
+        "店铺账号",
+        "作品URL",
+        "直播间",
+        "自有粉丝",
+        "互动用户",
+        "官方留资",
+        "达人账号",
+        "博主账号"
+      ],
+      "platforms": [
+        "抖音作品/评论",
+        "视频号",
+        "小红书笔记/评论",
+        "小红书官方留资"
+      ],
+      "regions": [
+        "吉林",
+        "长春"
+      ],
+      "triggers": [
+        "多少钱",
+        "地址",
+        "配送",
+        "团购",
+        "批发"
+      ],
+      "blocks": [
+        "互粉",
+        "抽奖",
+        "广告"
+      ],
+      "minScore": 70,
+      "contactPolicy": "需人工确认",
+      "status": "启用",
+      "createdAt": "2026-05-23T09:00:00.000+08:00",
+      "updatedAt": "2026-05-23T09:00:00.000+08:00"
+    }
+  ],
+  "discoveryCandidates": [],
+  "taskRuns": [
+    {
+      "id": "run_001",
+      "taskId": "task_001",
+      "taskName": "抖音作品/评论 · 关键词监控",
+      "status": "等待审核",
+      "checked": 0,
+      "matched": 0,
+      "detail": "任务创建后进入合规审核队列。",
+      "createdAt": "2026-05-23T09:00:00.000+08:00"
+    }
+  ],
+  "users": [
+    {
+      "id": "user_admin",
+      "name": "管理员",
+      "role": "管理员",
+      "token": "admin-token"
+    },
+    {
+      "id": "user_ops",
+      "name": "运营员",
+      "role": "运营",
+      "token": "ops-token"
+    },
+    {
+      "id": "user_sales",
+      "name": "销售一组",
+      "role": "销售",
+      "token": "sales-token"
+    }
+  ],
+  "auditLogs": [
+    {
+      "id": "log_001",
+      "actor": "系统",
+      "action": "初始化",
+      "target": "MVP 数据集",
+      "detail": "创建默认任务、线索和安全审计记录。",
+      "createdAt": "2026-05-23T09:00:00.000+08:00"
+    }
+  ]
+}

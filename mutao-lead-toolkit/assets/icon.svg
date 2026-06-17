@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="木桃工具包图标">
+  <rect x="12" y="12" width="232" height="232" rx="28" fill="#030302"/>
+  <rect x="14" y="14" width="228" height="228" rx="26" fill="#000"/>
+  <path d="M34 218V68M34 218c22 0 24-27 24-50V77l24 19c19 18 26 88 46 94 25 3 34-72 62-112l24-17v107c0 23 2 50 24 50V55" fill="none" stroke="#ffb21a" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M49 218V84M49 218c23 0 24-25 24-48V94c20 20 30 80 55 82 25-2 34-63 72-100l26-15v111c0 22 2 46 15 46" fill="none" stroke="#ffd15f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity=".72"/>
+  <rect x="16" y="16" width="226" height="62" rx="24" fill="#fff" opacity=".04"/>
+</svg>
